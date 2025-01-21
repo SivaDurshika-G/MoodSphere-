@@ -29,7 +29,7 @@ Installation Instructions 💻
 
 Clone the repository using:
 
-git clone https://github.com/yourusername/moodsphere.git
+git clone https://github.com/SivaDurshika-G/MoodSphere-
 
 Or download the project as a ZIP file and extract it.
 

@@ -1,38 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mood Tracker</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Tracker</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Mood Tracker 🌟</h1>
-    
-    <div class="mood-selection">
-      <h3>Select Your Mood:</h3>
-      <div class="moods">
-        <button class="mood-btn" data-mood="happy">😊 Happy</button>
-        <button class="mood-btn" data-mood="sad">😢 Sad</button>
-        <button class="mood-btn" data-mood="angry">😡 Angry</button>
-        <button class="mood-btn" data-mood="neutral">😐 Neutral</button>
-        <button class="mood-btn" data-mood="anxious">😟 Anxious</button>
-      </div>
+
+    <div class="container">
+        <h1>Mood Tracker 🌈</h1>
+        <div class="mood-selection">
+            <button class="mood-btn" onclick="setMood('Happy')">😊 Happy</button>
+            <button class="mood-btn" onclick="setMood('Sad')">😢 Sad</button>
+            <button class="mood-btn" onclick="setMood('Angry')">😡 Angry</button>
+            <button class="mood-btn" onclick="setMood('Neutral')">😐 Neutral</button>
+            <button class="mood-btn" onclick="setMood('Anxious')">😟 Anxious</button>
+        </div>
+
+        <textarea id="note" placeholder="Add a note (optional)"></textarea>
+        <button onclick="saveMood()">Save Mood</button>
+
+        <h3>Your Mood History:</h3>
+        <div id="mood-history"></div>
     </div>
-    
-    <textarea id="journal-entry" placeholder="Add a journal entry (Optional)"></textarea>
-    
-    <button id="save-btn" onclick="saveMood()">Save Mood</button>
 
-    <h3>Your Mood History:</h3>
-    <div id="mood-history"></div>
-
-    <div id="mood-graph"></div>
-
-    <button id="clear-btn" onclick="clearHistory()">Clear History</button>
-  </div>
-
-  <script src="scripts.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>

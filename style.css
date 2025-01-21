@@ -1,108 +1,102 @@
-/* Reset default styles */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f0f8ff;
-  color: #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
 .container {
-  text-align: center;
-  max-width: 600px;
-  width: 100%;
-  padding: 20px;
-  border-radius: 8px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
 }
 
 h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #4caf50;
 }
 
 .mood-selection {
-  margin-bottom: 20px;
-}
-
-.moods {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
 }
 
 .mood-btn {
-  padding: 10px 15px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  border: 2px solid #ddd;
-  border-radius: 5px;
-  background-color: #fff;
-  transition: all 0.3s ease;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #e7e7e7;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .mood-btn:hover {
-  background-color: #f1f1f1;
-  transform: scale(1.1);
+    background-color: #f0f0f0;
+    transform: scale(1.1);
 }
 
 textarea {
-  width: 90%;
-  height: 120px;
-  padding: 10px;
-  border: 2px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  resize: none;
-  transition: border 0.3s ease;
+    width: 90%;
+    height: 100px;
+    margin-top: 20px;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+    transition: border-color 0.3s;
 }
 
 textarea:focus {
-  border-color: #4caf50;
+    border-color: #4caf50;
 }
 
 button {
-  padding: 10px 20px;
-  font-size: 1.1rem;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: all 0.3s ease;
+    padding: 10px 20px;
+    font-size: 1rem;
+    margin-top: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #45a049;
+    background-color: #45a049;
 }
 
 #mood-history {
-  margin-top: 20px;
-  font-size: 1.2rem;
+    margin-top: 20px;
+    font-size: 1.1rem;
+    text-align: left;
 }
 
-#mood-graph {
-  margin-top: 30px;
-  font-size: 1.2rem;
+#mood-history div {
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
-  .container {
-    padding: 15px;
-  }
-
-  .moods {
-    flex-wrap: wrap;
-  }
+    .container {
+        width: 90%;
+    }
 }

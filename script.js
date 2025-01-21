@@ -9,10 +9,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Display mood history on page load
     function renderHistory() {
         historyList.innerHTML = '';
-        moodHistory.forEach(item => {
+        moodHistory.forEach((item, index) => {
             const listItem = document.createElement('li');
-            listItem.innerHTML = `<strong>${item.mood}</strong> - ${item.note || 'No note'} <span>${item.date}</span>`;
+            listItem.innerHTML = `
+                <strong>${item.mood}</strong> - ${item.note || 'No note'} 
+                <span>${item.date}</span>
+                <button class="remove-btn" data-index="${index}">Remove</button>
+            `;
             historyList.appendChild(listItem);
+        });
+
+        // Attach event listeners to remove buttons
+        const removeButtons = document.querySelectorAll('.remove-btn');
+        removeButtons.forEach(button => {
+            button.addEventListener('click', removeEntry);
         });
     }
 
@@ -46,6 +56,14 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Please select a mood!');
         }
     });
+
+    // Remove mood entry
+    function removeEntry(e) {
+        const index = e.target.getAttribute('data-index');
+        moodHistory.splice(index, 1); // Remove the item from the array
+        localStorage.setItem('moodHistory', JSON.stringify(moodHistory)); // Save the updated history
+        renderHistory(); // Re-render the history after removal
+    }
 
     // Initial render of history
     renderHistory();

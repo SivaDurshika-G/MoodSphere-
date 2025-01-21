@@ -1,33 +1,33 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Retrieve saved mood history from localStorage
-    const moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
-    const historyList = document.getElementById('historyList');
     const saveMoodBtn = document.getElementById('saveMoodBtn');
     const noteInput = document.getElementById('note');
     const moodButtons = document.querySelectorAll('.mood-btn');
-    
-    // Display mood history on page load
+    const historyList = document.getElementById('historyList');
+
+    let selectedMood = '';
+
+    // Function to render the mood history
     function renderHistory() {
-        historyList.innerHTML = '';
-        moodHistory.forEach((item, index) => {
+        const moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
+        historyList.innerHTML = ''; // Clear current list
+        
+        moodHistory.forEach((entry, index) => {
             const listItem = document.createElement('li');
             listItem.innerHTML = `
-                <strong>${item.mood}</strong> - ${item.note || 'No note'} 
-                <span>${item.date}</span>
+                <strong>${entry.mood}</strong> - ${entry.note || 'No note'} 
                 <button class="remove-btn" data-index="${index}">Remove</button>
             `;
             historyList.appendChild(listItem);
         });
 
-        // Attach event listeners to remove buttons
+        // Add event listeners for remove buttons
         const removeButtons = document.querySelectorAll('.remove-btn');
         removeButtons.forEach(button => {
-            button.addEventListener('click', removeEntry);
+            button.addEventListener('click', removeMood);
         });
     }
 
-    // Handle mood selection
-    let selectedMood = '';
+    // Handle mood button click
     moodButtons.forEach(button => {
         button.addEventListener('click', () => {
             selectedMood = button.getAttribute('data-mood');
@@ -36,35 +36,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Save mood
+    // Handle save mood button click
     saveMoodBtn.addEventListener('click', () => {
         if (selectedMood) {
             const note = noteInput.value;
             const date = new Date().toLocaleDateString();
-            const newEntry = {
-                mood: selectedMood,
-                note: note,
-                date: date
-            };
-            
-            moodHistory.push(newEntry);
+            const moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
+            moodHistory.push({ mood: selectedMood, note, date });
             localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
             renderHistory();
-            noteInput.value = '';  // Clear note field
-            selectedMood = '';     // Clear selected mood
+            noteInput.value = '';  // Clear note input
+            selectedMood = '';     // Reset selected mood
         } else {
             alert('Please select a mood!');
         }
     });
 
-    // Remove mood entry
-    function removeEntry(e) {
-        const index = e.target.getAttribute('data-index');
-        moodHistory.splice(index, 1); // Remove the item from the array
-        localStorage.setItem('moodHistory', JSON.stringify(moodHistory)); // Save the updated history
-        renderHistory(); // Re-render the history after removal
+    // Remove a mood entry
+    function removeMood(event) {
+        const index = event.target.getAttribute('data-index');
+        const moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
+        moodHistory.splice(index, 1);
+        localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
+        renderHistory(); // Re-render the list after removal
     }
 
-    // Initial render of history
+    // Initial render of mood history
     renderHistory();
 });

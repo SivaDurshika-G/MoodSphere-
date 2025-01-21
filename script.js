@@ -18,7 +18,8 @@ function updateHistory() {
     moodHistory.forEach(item => {
         const listItem = document.createElement('li');
         listItem.innerHTML = `
-            <span>${item.mood} - ${item.date}</span>
+            <span><strong>${item.mood}</strong> - ${item.date}</span>
+            ${item.note ? `<p>Note: ${item.note}</p>` : ''}
             <button class="remove-btn" onclick="removeMood(${item.id})">Remove</button>
         `;
         historyList.appendChild(listItem);

@@ -1,79 +1,107 @@
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f3f4f6;
+/* Reset default styles */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f8ff;
+  color: #333;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .container {
-  background-color: white;
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 320px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-  text-align: center;
-  color: #333;
-}
-
-.mood-selector,
-textarea {
+  font-size: 2.5rem;
   margin-bottom: 20px;
 }
 
-textarea {
-  width: 100%;
-  height: 60px;
-  padding: 10px;
-  font-size: 16px;
+.mood-selection {
+  margin-bottom: 20px;
+}
+
+.moods {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.mood-btn {
+  padding: 10px 15px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border: 2px solid #ddd;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.mood-btn:hover {
+  background-color: #f1f1f1;
+  transform: scale(1.1);
+}
+
+textarea {
+  width: 90%;
+  height: 120px;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  resize: none;
+  transition: border 0.3s ease;
+}
+
+textarea:focus {
+  border-color: #4caf50;
 }
 
 button {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  font-size: 16px;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  background-color: #4caf50;
+  color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s ease;
 }
 
-button#save {
-  background-color: #4CAF50;
-  color: white;
+button:hover {
+  background-color: #45a049;
 }
 
-button#reset {
-  background-color: #f44336;
-  color: white;
+#mood-history {
+  margin-top: 20px;
+  font-size: 1.2rem;
 }
 
-#calendar {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-  margin-bottom: 20px;
+#mood-graph {
+  margin-top: 30px;
 }
 
-.calendar div {
-  width: 40px;
-  height: 40px;
-  border-radius: 5px;
-  text-align: center;
-  line-height: 40px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s ease;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
 
-.calendar div:hover {
-  transform: scale(1.1);
+  .moods {
+    flex-wrap: wrap;
+  }
 }

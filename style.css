@@ -97,6 +97,21 @@ h1 {
     align-items: center;
 }
 
+.remove-btn {
+    padding: 5px 10px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s;
+}
+
+.remove-btn:hover {
+    background-color: #c82333;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .mood-buttons {

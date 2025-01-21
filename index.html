@@ -4,26 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mood Tracker</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <h1>Mood Tracker</h1>
-    <div class="calendar" id="calendar"></div>
-    <div class="mood-selector">
-      <label for="mood">Select Mood:</label>
-      <select id="mood">
-        <option value="happy" style="background-color: #FFEB3B;">😊 Happy</option>
-        <option value="sad" style="background-color: #2196F3;">😢 Sad</option>
-        <option value="neutral" style="background-color: #BDBDBD;">😐 Neutral</option>
-        <option value="excited" style="background-color: #FF5722;">😃 Excited</option>
-      </select>
+    <h1>Mood Tracker 🌟</h1>
+    
+    <div class="mood-selection">
+      <h3>Select Your Mood:</h3>
+      <div class="moods">
+        <button class="mood-btn" data-mood="happy">😊 Happy</button>
+        <button class="mood-btn" data-mood="sad">😢 Sad</button>
+        <button class="mood-btn" data-mood="angry">😡 Angry</button>
+        <button class="mood-btn" data-mood="neutral">😐 Neutral</button>
+        <button class="mood-btn" data-mood="anxious">😟 Anxious</button>
+      </div>
     </div>
-    <textarea id="note" placeholder="Add a note..."></textarea>
-    <button id="save">Save Mood</button>
-    <button id="reset">Reset</button>
+    
+    <textarea id="journal-entry" placeholder="Add a journal entry (Optional)"></textarea>
+    
+    <button id="save-btn" onclick="saveMood()">Save Mood</button>
+
+    <h3>Your Mood History:</h3>
+    <div id="mood-history"></div>
+
+    <div id="mood-graph"></div>
+
+    <button id="clear-btn" onclick="clearHistory()">Clear History</button>
   </div>
 
-  <script src="script.js"></script>
+  <script src="scripts.js"></script>
 </body>
 </html>

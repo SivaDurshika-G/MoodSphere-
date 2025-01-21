@@ -1,45 +1,52 @@
-let moodData = JSON.parse(localStorage.getItem("moodData")) || [];
-
-// Function to set selected mood
-function setMood(mood) {
-    document.getElementById("note").setAttribute("data-mood", mood);
-}
-
-// Save the mood and note
-function saveMood() {
-    const selectedMood = document.getElementById("note").getAttribute("data-mood");
-    const note = document.getElementById("note").value.trim();
-
-    if (!selectedMood) {
-        alert("Please select a mood first.");
-        return;
+document.addEventListener('DOMContentLoaded', function() {
+    // Retrieve saved mood history from localStorage
+    const moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
+    const historyList = document.getElementById('historyList');
+    const saveMoodBtn = document.getElementById('saveMoodBtn');
+    const noteInput = document.getElementById('note');
+    const moodButtons = document.querySelectorAll('.mood-btn');
+    
+    // Display mood history on page load
+    function renderHistory() {
+        historyList.innerHTML = '';
+        moodHistory.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `<strong>${item.mood}</strong> - ${item.note || 'No note'} <span>${item.date}</span>`;
+            historyList.appendChild(listItem);
+        });
     }
 
-    const date = new Date().toLocaleDateString();
-    const moodEntry = {
-        mood: selectedMood,
-        note: note,
-        date: date
-    };
-
-    moodData.push(moodEntry);
-    localStorage.setItem("moodData", JSON.stringify(moodData));
-
-    document.getElementById("note").value = "";  // Clear the textarea
-    renderMoodHistory();
-}
-
-// Render mood history
-function renderMoodHistory() {
-    const moodHistoryDiv = document.getElementById("mood-history");
-    moodHistoryDiv.innerHTML = "";
-
-    moodData.forEach(entry => {
-        const entryDiv = document.createElement("div");
-        entryDiv.innerHTML = `<strong>${entry.date}</strong> - Mood: ${entry.mood}<br>Note: ${entry.note || "No note"}`;
-        moodHistoryDiv.appendChild(entryDiv);
+    // Handle mood selection
+    let selectedMood = '';
+    moodButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            selectedMood = button.getAttribute('data-mood');
+            document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+        });
     });
-}
 
-// Initial render on page load
-renderMoodHistory();
+    // Save mood
+    saveMoodBtn.addEventListener('click', () => {
+        if (selectedMood) {
+            const note = noteInput.value;
+            const date = new Date().toLocaleDateString();
+            const newEntry = {
+                mood: selectedMood,
+                note: note,
+                date: date
+            };
+            
+            moodHistory.push(newEntry);
+            localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
+            renderHistory();
+            noteInput.value = '';  // Clear note field
+            selectedMood = '';     // Clear selected mood
+        } else {
+            alert('Please select a mood!');
+        }
+    });
+
+    // Initial render of history
+    renderHistory();
+});

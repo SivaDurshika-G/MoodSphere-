@@ -4,27 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mood Tracker</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div class="container">
-        <h1>Mood Tracker 🌈</h1>
-        <div class="mood-selection">
-            <button class="mood-btn" onclick="setMood('Happy')">😊 Happy</button>
-            <button class="mood-btn" onclick="setMood('Sad')">😢 Sad</button>
-            <button class="mood-btn" onclick="setMood('Angry')">😡 Angry</button>
-            <button class="mood-btn" onclick="setMood('Neutral')">😐 Neutral</button>
-            <button class="mood-btn" onclick="setMood('Anxious')">😟 Anxious</button>
+    <div class="app-container">
+        <h1>Mood Tracker</h1>
+        <div class="mood-buttons">
+            <button class="mood-btn" data-mood="Happy">😊 Happy</button>
+            <button class="mood-btn" data-mood="Sad">😢 Sad</button>
+            <button class="mood-btn" data-mood="Angry">😡 Angry</button>
+            <button class="mood-btn" data-mood="Neutral">😐 Neutral</button>
+            <button class="mood-btn" data-mood="Anxious">😟 Anxious</button>
         </div>
 
-        <textarea id="note" placeholder="Add a note (optional)"></textarea>
-        <button onclick="saveMood()">Save Mood</button>
+        <textarea id="note" placeholder="Write a note..."></textarea>
+        <button id="saveMoodBtn">Save Mood</button>
 
-        <h3>Your Mood History:</h3>
-        <div id="mood-history"></div>
+        <div class="history">
+            <h3>Your Mood History:</h3>
+            <ul id="historyList"></ul>
+        </div>
     </div>
 
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

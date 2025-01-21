@@ -3,18 +3,28 @@ const journalEntry = document.getElementById("journal-entry");
 const moodHistory = document.getElementById("mood-history");
 const moodGraph = document.getElementById("mood-graph");
 let moodData = JSON.parse(localStorage.getItem("moodData")) || [];
+let selectedMood = "";
 
+// Mood selection functionality
 moodBtns.forEach(btn => {
   btn.addEventListener("click", function() {
-    const selectedMood = this.dataset.mood;
-    document.getElementById("save-btn").onclick = () => saveMood(selectedMood);
+    selectedMood = this.dataset.mood;
+    // Highlight the selected mood button (optional)
+    moodBtns.forEach(button => button.classList.remove("selected"));
+    this.classList.add("selected");
   });
 });
 
-function saveMood(selectedMood) {
+// Save mood function
+function saveMood() {
+  if (selectedMood === "") {
+    alert("Please select a mood.");
+    return;
+  }
+
   const note = journalEntry.value.trim();
   const date = new Date().toLocaleDateString();
-  
+
   const newMoodEntry = {
     mood: selectedMood,
     note: note,
@@ -29,6 +39,7 @@ function saveMood(selectedMood) {
   renderMoodGraph();
 }
 
+// Render mood history (recent entries)
 function renderMoodHistory() {
   moodHistory.innerHTML = "";
   moodData.forEach(entry => {
@@ -39,6 +50,7 @@ function renderMoodHistory() {
   });
 }
 
+// Render mood graph (count of each mood)
 function renderMoodGraph() {
   const moodCount = {
     happy: 0,
@@ -63,6 +75,7 @@ function renderMoodGraph() {
   moodGraph.innerHTML = graphHTML;
 }
 
+// Clear mood history
 function clearHistory() {
   localStorage.removeItem("moodData");
   moodData = [];
@@ -70,5 +83,6 @@ function clearHistory() {
   renderMoodGraph();
 }
 
+// Initial render
 renderMoodHistory();
 renderMoodGraph();

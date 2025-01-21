@@ -1,89 +1,74 @@
-// Get elements
-const moodSelector = document.getElementById('mood');
-const noteInput = document.getElementById('note');
-const saveButton = document.getElementById('save');
-const resetButton = document.getElementById('reset');
-const calendarContainer = document.getElementById('calendar');
+const moodBtns = document.querySelectorAll(".mood-btn");
+const journalEntry = document.getElementById("journal-entry");
+const moodHistory = document.getElementById("mood-history");
+const moodGraph = document.getElementById("mood-graph");
+let moodData = JSON.parse(localStorage.getItem("moodData")) || [];
 
-// Function to load the calendar and moods
-function loadCalendar() {
-  const currentDate = new Date();
-  const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+moodBtns.forEach(btn => {
+  btn.addEventListener("click", function() {
+    const selectedMood = this.dataset.mood;
+    document.getElementById("save-btn").onclick = () => saveMood(selectedMood);
+  });
+});
+
+function saveMood(selectedMood) {
+  const note = journalEntry.value.trim();
+  const date = new Date().toLocaleDateString();
   
-  // Create the calendar grid
-  calendarContainer.innerHTML = '';
-  for (let i = 1; i <= daysInMonth; i++) {
-    const dayDiv = document.createElement('div');
-    dayDiv.textContent = i;
-    dayDiv.dataset.day = i;
+  const newMoodEntry = {
+    mood: selectedMood,
+    note: note,
+    date: date,
+  };
 
-    // Load mood from LocalStorage if exists
-    const savedMood = localStorage.getItem(`moodDay${i}`);
-    const savedNote = localStorage.getItem(`noteDay${i}`);
-    
-    if (savedMood) {
-      dayDiv.style.backgroundColor = savedMood;
+  moodData.push(newMoodEntry);
+  localStorage.setItem("moodData", JSON.stringify(moodData));
+
+  journalEntry.value = ""; // Reset the journal field
+  renderMoodHistory();
+  renderMoodGraph();
+}
+
+function renderMoodHistory() {
+  moodHistory.innerHTML = "";
+  moodData.forEach(entry => {
+    const moodElement = document.createElement("div");
+    moodElement.classList.add("mood-entry");
+    moodElement.innerHTML = `<strong>${entry.date}</strong>: ${entry.mood} - ${entry.note || "No journal entry"}`;
+    moodHistory.appendChild(moodElement);
+  });
+}
+
+function renderMoodGraph() {
+  const moodCount = {
+    happy: 0,
+    sad: 0,
+    angry: 0,
+    neutral: 0,
+    anxious: 0,
+  };
+
+  moodData.forEach(entry => {
+    if (moodCount[entry.mood] !== undefined) {
+      moodCount[entry.mood]++;
     }
-    
-    // Add click event to select mood for that day
-    dayDiv.addEventListener('click', () => {
-      moodSelector.value = savedMood || 'neutral';
-      noteInput.value = savedNote || '';
-    });
+  });
 
-    calendarContainer.appendChild(dayDiv);
+  let graphHTML = "<h3>Mood Graph:</h3><ul>";
+  for (const mood in moodCount) {
+    graphHTML += `<li><strong>${mood}</strong>: ${moodCount[mood]}</li>`;
   }
+  graphHTML += "</ul>";
+
+  moodGraph.innerHTML = graphHTML;
 }
 
-// Save mood and note to LocalStorage
-saveButton.addEventListener('click', () => {
-  const selectedMood = moodSelector.value;
-  const selectedDay = document.querySelector('.calendar .selected')?.dataset.day;
-
-  if (selectedDay) {
-    localStorage.setItem(`moodDay${selectedDay}`, selectedMood);
-    localStorage.setItem(`noteDay${selectedDay}`, noteInput.value);
-
-    // Update the calendar with the selected mood color
-    const dayDiv = document.querySelector(`.calendar div[data-day="${selectedDay}"]`);
-    if (dayDiv) {
-      dayDiv.style.backgroundColor = selectedMood;
-    }
-  }
-});
-
-// Reset all data in LocalStorage
-resetButton.addEventListener('click', () => {
-  localStorage.clear();
-  loadCalendar();
-});
-
-// Function to show notification
-function showNotification() {
-  if (Notification.permission === "granted") {
-    new Notification("Don't forget to log your mood for the day!");
-  } else if (Notification.permission !== "denied") {
-    Notification.requestPermission().then(permission => {
-      if (permission === "granted") {
-        new Notification("Don't forget to log your mood for the day!");
-      }
-    });
-  }
+function clearHistory() {
+  localStorage.removeItem("moodData");
+  moodData = [];
+  renderMoodHistory();
+  renderMoodGraph();
 }
 
-// Schedule daily reminder (at 8 PM)
-function scheduleReminder() {
-  const now = new Date();
-  const timeToReminder = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 20, 0, 0); // 8 PM today
-  const timeUntilReminder = timeToReminder - now;
-
-  if (timeUntilReminder > 0) {
-    setTimeout(() => {
-      showNotification();
-    }, timeUntilReminder);
-  }
-}
-
-// Initial calendar load and schedule reminder
-loadCalendar();
-scheduleReminder();
+renderMoodHistory();
+renderMoodGraph();

@@ -77,3 +77,23 @@ saveMoodBtn.addEventListener('click', saveMood);
 
 // Initialize the app
 updateHistory();
+
+
+const themeSwitch = document.getElementById('themeSwitch');
+
+// Apply previously selected theme
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark');
+    themeSwitch.checked = true;
+}
+
+// Toggle on switch change
+themeSwitch.addEventListener('change', () => {
+    if (themeSwitch.checked) {
+        document.body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.body.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+    }
+});

@@ -4,6 +4,11 @@ const saveMoodBtn = document.getElementById('saveMoodBtn');
 const historyList = document.querySelector('.history ul');
 const moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
 
+// Permission for notification on loading page
+if ('Notification' in window && Notification.permission !== 'granted') {
+    Notification.requestPermission();
+}
+
 // Get current date and time
 function getCurrentDateTime() {
     const now = new Date();
@@ -77,3 +82,15 @@ saveMoodBtn.addEventListener('click', saveMood);
 
 // Initialize the app
 updateHistory();
+
+// Set reminder time
+const setReminderBtn = document.getElementById('setReminderBtn');
+const reminderInput = document.getElementById('reminderTime');
+
+setReminderBtn.addEventListener('click', () => {
+    const time = reminderInput.value;
+    if (time) {
+        localStorage.setItem('reminderTime', time);
+        alert('Reminder time saved!');
+    }
+});

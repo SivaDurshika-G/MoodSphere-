@@ -4,6 +4,11 @@ const saveMoodBtn = document.getElementById('saveMoodBtn');
 const historyList = document.querySelector('.history ul');
 const moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
 
+// Permission for notification on loading page
+if ('Notification' in window && Notification.permission !== 'granted') {
+    Notification.requestPermission();
+}
+
 // Get current date and time
 function getCurrentDateTime() {
     const now = new Date();
@@ -77,3 +82,42 @@ saveMoodBtn.addEventListener('click', saveMood);
 
 // Initialize the app
 updateHistory();
+
+// Set reminder time
+const setReminderBtn = document.getElementById('setReminderBtn');
+const reminderInput = document.getElementById('reminderTime');
+
+setReminderBtn.addEventListener('click', () => {
+    const time = reminderInput.value;
+    if (time) {
+        localStorage.setItem('reminderTime', time);
+
+        if (Notification.permission !== 'granted') {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'denied') {
+                    alert('You have blocked notifications. Please enable them in your browser settings to receive mood reminders.');
+                }
+            });
+        }
+
+        alert('Reminder time saved!');
+    }
+});
+
+// Check for reminder every 60 seconds
+let lastNotificationTime = null;
+
+setInterval(() => {
+    const reminderTime = localStorage.getItem('reminderTime');
+    if (!reminderTime || Notification.permission !== 'granted') return;
+
+    const now = new Date();
+    const currentTime = now.toTimeString().slice(0, 5); 
+
+    if (currentTime === reminderTime && currentTime !== lastNotificationTime) {
+        new Notification('Mood Tracker', {
+            body: "It's time to log your mood",
+        });
+        lastNotificationTime = currentTime;
+    }
+}, 60000);

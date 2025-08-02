@@ -91,6 +91,15 @@ setReminderBtn.addEventListener('click', () => {
     const time = reminderInput.value;
     if (time) {
         localStorage.setItem('reminderTime', time);
+
+        if (Notification.permission !== 'granted') {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'denied') {
+                    alert('You have blocked notifications. Please enable them in your browser settings to receive mood reminders.');
+                }
+            });
+        }
+
         alert('Reminder time saved!');
     }
 });

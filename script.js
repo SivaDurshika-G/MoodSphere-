@@ -94,3 +94,21 @@ setReminderBtn.addEventListener('click', () => {
         alert('Reminder time saved!');
     }
 });
+
+// Check for reminder every 60 seconds
+let lastNotificationTime = null;
+
+setInterval(() => {
+    const reminderTime = localStorage.getItem('reminderTime');
+    if (!reminderTime || Notification.permission !== 'granted') return;
+
+    const now = new Date();
+    const currentTime = now.toTimeString().slice(0, 5); 
+
+    if (currentTime === reminderTime && currentTime !== lastNotificationTime) {
+        new Notification('Mood Tracker', {
+            body: "It's time to log your mood",
+        });
+        lastNotificationTime = currentTime;
+    }
+}, 60000);

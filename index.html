@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mood Tracker</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
 </head>
 <body>
     <div class="app-container">
@@ -29,6 +31,13 @@
 
         <textarea id="note" placeholder="Write a note..."></textarea>
         <button id="saveMoodBtn">Save Mood</button>
+
+        <div class="reminder">
+            <label for="reminderTime">Set Daily Reminder Time:</label>
+            <input type="time" id="reminderTime">
+            <button id="setReminderBtn">Set Reminder</button>
+
+        </div>
 
         <div class="history">
             <h3>Your Mood History:</h3>

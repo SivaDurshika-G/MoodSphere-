@@ -6,9 +6,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 115vh;
     text-align: center;
-    overflow: hidden;
+     overflow-x: hidden; /* hide sideways scroll */
+    overflow-y: auto; 
 }
 
 .app-container {
@@ -257,4 +258,42 @@ body.dark .remove-btn:hover {
     border: none;
     padding: 5px 10px;
     cursor: pointer;
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 0px;
+}
+
+.footer {
+    padding: 15px 10px;
+    text-align: center;
+    background-color: #f1f1f1;
+    font-size: 14px;
+    color: #555;
+    border-top: 1px solid #ccc;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.footer a {
+    color: #007bff;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Dark mode compatibility */
+body.dark .footer {
+    background-color: #1a1a1a;
+    color: #ccc;
+    border-top: 1px solid #444;
+}
+
+body.dark .footer a {
+    color: #66b0ff;
 }

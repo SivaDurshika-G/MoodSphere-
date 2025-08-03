@@ -6,43 +6,49 @@
     <title>Mood Tracker</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-
 </head>
 <body>
-    <div class="app-container">
+    <div class="page-wrapper">
+        <div class="app-container">
+            <div class="theme-toggle">
+                <label class="switch">
+                    <input type="checkbox" id="themeSwitch">
+                    <span class="slider round"></span>
+                </label>
+            </div>
 
-        <div class="theme-toggle">
-         <label class="switch">
-           <input type="checkbox" id="themeSwitch">
-           <span class="slider round"></span>
-         </label>
-       </div>
+            <h1>Mood Tracker</h1>
 
-        
-        <h1>Mood Tracker</h1>
-        
-        <div class="mood-buttons">
-            <button class="mood-btn" data-mood="Happy">😊 Happy</button>
-            <button class="mood-btn" data-mood="Sad">😢 Sad</button>
-            <button class="mood-btn" data-mood="Angry">😡 Angry</button>
-            <button class="mood-btn" data-mood="Neutral">😐 Neutral</button>
-            <button class="mood-btn" data-mood="Anxious">😟 Anxious</button>
+            <div class="mood-buttons">
+                <button class="mood-btn" data-mood="Happy">😊 Happy</button>
+                <button class="mood-btn" data-mood="Sad">😢 Sad</button>
+                <button class="mood-btn" data-mood="Angry">😡 Angry</button>
+                <button class="mood-btn" data-mood="Neutral">😐 Neutral</button>
+                <button class="mood-btn" data-mood="Anxious">😟 Anxious</button>
+            </div>
+
+            <textarea id="note" placeholder="Write a note..."></textarea>
+            <button id="saveMoodBtn">Save Mood</button>
+
+            <div class="reminder">
+                <label for="reminderTime">Set Daily Reminder Time:</label>
+                <input type="time" id="reminderTime">
+                <button id="setReminderBtn">Set Reminder</button>
+            </div>
+
+            <div class="history">
+                <h3>Your Mood History:</h3>
+                <ul id="historyList"></ul>
+            </div>
         </div>
 
-        <textarea id="note" placeholder="Write a note..."></textarea>
-        <button id="saveMoodBtn">Save Mood</button>
-
-        <div class="reminder">
-            <label for="reminderTime">Set Daily Reminder Time:</label>
-            <input type="time" id="reminderTime">
-            <button id="setReminderBtn">Set Reminder</button>
-
-        </div>
-
-        <div class="history">
-            <h3>Your Mood History:</h3>
-            <ul id="historyList"></ul>
-        </div>
+        <footer class="footer">
+            <p>&copy; 2025 MoodSphere. All rights reserved.</p>
+            <p>
+                <a href="#">Privacy Policy</a> | 
+                <a href="#">Terms of Service</a>
+            </p>
+        </footer>
     </div>
 
     <script src="script.js"></script>

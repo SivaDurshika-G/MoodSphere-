@@ -1,143 +1,173 @@
-const moodButtons = document.querySelectorAll('.mood-btn');
-const noteInput = document.getElementById('note');
-const saveMoodBtn = document.getElementById('saveMoodBtn');
-const historyList = document.querySelector('.history ul');
-const moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
+// script.js
 
-// Permission for notification on loading page
-if ('Notification' in window && Notification.permission !== 'granted') {
-    Notification.requestPermission();
-}
+(function() {
+  'use strict';
 
-// Get current date and time
-function getCurrentDateTime() {
-    const now = new Date();
-    const date = now.toLocaleDateString(); // Formats date as 'MM/DD/YYYY'
-    const time = now.toLocaleTimeString(); // Formats time as 'HH:MM:SS AM/PM'
-    return `${date} ${time}`;
-}
+  // --- Safe element references ---
+  const moodButtons    = document.querySelectorAll('.mood-btn');
+  const noteInput      = document.getElementById('note');
+  const saveMoodBtn    = document.getElementById('saveMoodBtn');
+  const historyList    = document.getElementById('historyList');
+  const themeSwitch    = document.getElementById('themeSwitch');
+  const setReminderBtn = document.getElementById('setReminderBtn');
+  const reminderInput  = document.getElementById('reminderTime');
+  const streakCount    = document.getElementById('streakCount');
+  const resetBtn       = document.getElementById('resetBtn');
+  const reminderStatus = document.getElementById('reminderStatus');
 
-// Update the mood history UI
-function updateHistory() {
-    historyList.innerHTML = ''; // Clear the history list
-    moodHistory.forEach(item => {
-        const listItem = document.createElement('li');
-        listItem.innerHTML = `
-            <span><strong>${item.mood}</strong> - ${item.date}</span>
-            ${item.note ? `<p>Note: ${item.note}</p>` : ''}
-            <button class="remove-btn" onclick="removeMood(${item.id})">Remove</button>
-        `;
-        historyList.appendChild(listItem);
+  // --- Load mood history safely ---
+  let moodHistory = [];
+  try {
+    moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
+  } catch {
+    moodHistory = [];
+  }
+
+  // --- Theme Management ---
+  (function initTheme() {
+    const dark = localStorage.getItem('darkMode') === 'true';
+    document.body.classList.toggle('dark', dark);
+    if (themeSwitch) themeSwitch.checked = dark;
+  })();
+
+  if (themeSwitch) {
+    themeSwitch.addEventListener('change', () => {
+      const dark = themeSwitch.checked;
+      document.body.classList.toggle('dark', dark);
+      localStorage.setItem('darkMode', dark);
     });
-}
+  }
 
-// Save mood to local storage
-function saveMood() {
-    const selectedMood = document.querySelector('.mood-btn.selected');
-    if (!selectedMood) {
-        alert('Please select a mood!');
-        return;
+  // --- Custom Notification System ---
+  function showCustomNotification(message, icon = '⏰') {
+    const notification = document.getElementById('customNotification');
+    if (!notification) return;
+    const txt = notification.querySelector('.notification-text');
+    const ic  = notification.querySelector('.notification-icon');
+    if (!txt || !ic) return;
+    txt.textContent = message;
+    ic.textContent  = icon;
+    notification.classList.add('show');
+    setTimeout(() => notification.classList.remove('show'), 5000);
+  }
+  window.closeNotification = () => {
+    const n = document.getElementById('customNotification');
+    if (n) n.classList.remove('show');
+  };
+
+  // --- Day Counter ---
+  function updateStreak() {
+    const c = localStorage.getItem('dayCount') || '0';
+    if (streakCount) streakCount.textContent = c;
+  }
+  function incStreak() {
+    const n = parseInt(localStorage.getItem('dayCount')||'0',10) + 1;
+    localStorage.setItem('dayCount', n);
+    updateStreak();
+  }
+  function resetStreak() {
+    localStorage.setItem('dayCount','0');
+    updateStreak();
+    if (resetBtn) {
+      resetBtn.textContent = 'Reset! ✓';
+      setTimeout(() => resetBtn.textContent = 'Reset Count', 2000);
     }
-    const mood = selectedMood.innerText;
-    const note = noteInput.value.trim();
-    const dateTime = getCurrentDateTime();
-    
-    const moodData = {
-        id: new Date().getTime(),
-        mood,
-        note,
-        date: dateTime
-    };
+  }
+  updateStreak();
+  if (resetBtn) resetBtn.addEventListener('click', resetStreak);
 
-    moodHistory.push(moodData);
+  // --- History Rendering ---
+  function getEmoji(m) {
+    return {Great:'😄',Good:'😊',Okay:'😐','Not Great':'😕',Bad:'😢',Anxious:'😰'}[m]||'😊';
+  }
+  function renderHistory() {
+    if (!historyList) return;
+    historyList.innerHTML = '';
+    moodHistory.slice(0,20).forEach(item => {
+      const d = document.createElement('div');
+      d.className = 'history-item';
+      d.innerHTML = `
+        <div class="mood-info">
+          <span class="mood-emoji-small">${getEmoji(item.mood)}</span>
+          <div>
+            <div class="mood-text"><strong>${item.mood}</strong></div>
+            <div class="mood-date">${item.date}</div>
+            ${item.note ? `<p style="font-size:12px;opacity:0.8;">${item.note}</p>` : ''}
+          </div>
+        </div>
+        <button class="remove-btn" onclick="removeMood(${item.id})">Remove</button>
+      `;
+      historyList.appendChild(d);
+    });
+  }
+  window.removeMood = id => {
+    moodHistory = moodHistory.filter(e=>e.id!==id);
     localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
+    renderHistory();
+  };
+  renderHistory();
 
-    updateHistory(); // Refresh the history list
-
-    // Reset the UI
-    document.querySelector('.mood-btn.selected')?.classList.remove('selected');
+  // --- Mood Selection & Saving ---
+  moodButtons.forEach(btn=>btn.addEventListener('click', ()=>{
+    moodButtons.forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }));
+  saveMoodBtn.addEventListener('click',()=>{
+    const sel = document.querySelector('.mood-btn.selected');
+    if (!sel) { alert('Select a mood!'); return; }
+    const mood = sel.dataset.mood;
+    const note = noteInput.value.trim();
+    const date = new Date().toLocaleDateString();
+    moodHistory.unshift({id:Date.now(),mood,note,date});
+    localStorage.setItem('moodHistory',JSON.stringify(moodHistory));
+    renderHistory();
+    sel.classList.remove('selected');
     noteInput.value = '';
-}
+    incStreak();
+    saveMoodBtn.textContent = 'Saved! ✨';
+    setTimeout(()=>saveMoodBtn.textContent="Save Today's Mood",2000);
+  });
 
-// Remove mood from history
-function removeMood(id) {
-    const index = moodHistory.findIndex(item => item.id === id);
-    if (index !== -1) {
-        moodHistory.splice(index, 1);
-        localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
-        updateHistory(); // Refresh the history list
+  // --- Reminder UI ---
+  function updateReminderUI() {
+    const t = localStorage.getItem('reminderTime');
+    if (t && reminderStatus) {
+      const [h,m] = t.split(':');
+      const lbl = new Date(`1970-01-01T${t}:00`)
+                    .toLocaleTimeString([], {hour:'numeric',minute:'2-digit',hour12:true});
+      reminderStatus.textContent = `Reminder set for ${lbl}`;
+    } else if (reminderStatus) {
+      reminderStatus.textContent = '';
     }
-}
+  }
+  setReminderBtn.addEventListener('click',()=>{
+    const t = reminderInput.value;
+    if (!t) { showCustomNotification('Pick a time!', '⚠️'); return; }
+    localStorage.setItem('reminderTime', t);
+    updateReminderUI();
+    showCustomNotification(`Reminder for ${t}`, '✅');
+  });
+  updateReminderUI();
 
-// Add event listener to mood buttons
-moodButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        moodButtons.forEach(btn => btn.classList.remove('selected'));
-        button.classList.add('selected');
-    });
-});
-
-// Add event listener to save button
-saveMoodBtn.addEventListener('click', saveMood);
-
-// Initialize the app
-updateHistory();
-
-const themeSwitch = document.getElementById('themeSwitch');
-
-// Apply previously selected theme
-if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark');
-    themeSwitch.checked = true;
-}
-
-// Toggle on switch change
-themeSwitch.addEventListener('change', () => {
-    if (themeSwitch.checked) {
-        document.body.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-    } else {
-        document.body.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-    }
-});
-
-// Set reminder time
-const setReminderBtn = document.getElementById('setReminderBtn');
-const reminderInput = document.getElementById('reminderTime');
-
-setReminderBtn.addEventListener('click', () => {
-    const time = reminderInput.value;
-    if (time) {
-        localStorage.setItem('reminderTime', time);
-
-        if (Notification.permission !== 'granted') {
-            Notification.requestPermission().then(permission => {
-                if (permission === 'denied') {
-                    alert('You have blocked notifications. Please enable them in your browser settings to receive mood reminders.');
-                }
-            });
-        }
-
-        alert('Reminder time saved!');
-    }
-});
-
-// Check for reminder every 60 seconds
-let lastNotificationTime = null;
-
-setInterval(() => {
-    const reminderTime = localStorage.getItem('reminderTime');
-    if (!reminderTime || Notification.permission !== 'granted') return;
-
+  // --- Exact-Second Reminder Check ---
+  let lastHHMM = null;
+  setInterval(()=>{
+    const t = localStorage.getItem('reminderTime');
+    if (!t) return;
     const now = new Date();
-    const currentTime = now.toTimeString().slice(0, 5); 
-
-    if (currentTime === reminderTime && currentTime !== lastNotificationTime) {
-        new Notification('Mood Tracker', {
-            body: "It's time to log your mood",
-        });
-        lastNotificationTime = currentTime;
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    const ss = now.getSeconds();
+    const current = `${hh}:${mm}`;
+    // when seconds===0 and we haven't yet triggered for this minute
+    if (ss === 0 && current === t && lastHHMM !== current) {
+      showCustomNotification("Time to log your mood!","⏰");
+      lastHHMM = current;
     }
-}, 60000);
+    // reset flag after minute passes
+    if (current !== lastHHMM) {
+      lastHHMM = null;
+    }
+  }, 1000);
 
+})();

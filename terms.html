@@ -1,35 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terms of Service - MoodSphere</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div class="page-wrapper">
-    <div class="app-container">
-      <h1>Terms of Service</h1>
-      <p>By using MoodSphere, you agree to the following terms and conditions:</p>
-
-      <h3>Usage</h3>
-      <p>This tool is designed for personal use only. Do not use it for commercial or medical purposes.</p>
-
-      <h3>Data Handling</h3>
-      <p>All mood data is stored locally on your device. We do not collect any user data.</p>
-
-      <h3>Disclaimer</h3>
-      <p>MoodSphere is not a substitute for professional mental health services. If you need support, please contact a licensed therapist or helpline.</p>
-
-      <h3>Modification of Terms</h3>
-      <p>We may update these terms in the future. Continued use of the app means acceptance of any changes.</p>
-
-      <p><a href="index.html">← Back to MoodSphere</a></p>
+<body class="page-wrapper">
+  <div class="app-container">
+    <h1>Terms of Service</h1>
+    
+    <div class="intro-text">
+      <p>Welcome to MoodSphere! These terms govern your use of our mood tracking application. By using MoodSphere, you agree to these terms.</p>
     </div>
 
-    <footer class="footer">
-      <p>&copy; 2025 MoodSphere. All rights reserved.</p>
-    </footer>
+    <h3>About MoodSphere</h3>
+    <p>MoodSphere is a personal wellness tool designed to help you track and reflect on your daily moods. Our service includes:</p>
+    <ul>
+      <li>Daily mood tracking and journaling</li>
+      <li>Personal reflection tools</li>
+      <li>Reminder notifications</li>
+      <li>Historical mood data visualization</li>
+    </ul>
+
+    <h3>Your Responsibilities</h3>
+    <p>When using MoodSphere, you agree to:</p>
+    <ul>
+      <li>Use the application for personal wellness purposes</li>
+      <li>Provide accurate information about your moods and feelings</li>
+      <li>Not misuse or attempt to harm the application</li>
+      <li>Respect the intended purpose of the mood tracking features</li>
+    </ul>
+
+    <div class="disclaimer-box">
+      <p><strong>Medical Disclaimer:</strong> MoodSphere is a wellness tool and is not intended to diagnose, treat, or replace professional medical advice. Please consult healthcare professionals for serious mental health concerns.</p>
+    </div>
+
+    <h3>Service Availability</h3>
+    <p>We strive to keep MoodSphere available and functional, but:</p>
+    <ul>
+      <li>The service is provided "as is" without warranties</li>
+      <li>We may update or modify features periodically</li>
+      <li>Temporary outages may occur for maintenance</li>
+      <li>We are not liable for any data loss due to browser issues</li>
+    </ul>
+
+    <h3>Data and Privacy</h3>
+    <div class="highlight-box">
+      <p>Your mood tracking data is stored locally on your device and is not transmitted to our servers. You maintain complete control over your personal information.</p>
+    </div>
+
+    <h3>Intellectual Property</h3>
+    <p>MoodSphere's design, code, and content are protected by intellectual property laws. You may not:</p>
+    <ul>
+      <li>Copy or redistribute the application code</li>
+      <li>Reverse engineer the application</li>
+      <li>Use MoodSphere branding without permission</li>
+    </ul>
+
+    <h3>Limitation of Liability</h3>
+    <p>MoodSphere and its creators are not liable for:</p>
+    <ul>
+      <li>Any decisions made based on mood tracking data</li>
+      <li>Technical issues or data loss</li>
+      <li>Indirect or consequential damages</li>
+      <li>Issues arising from browser or device problems</li>
+    </ul>
+
+    <div class="support-resources">
+      <h4>Mental Health Resources</h4>
+      <p>If you're experiencing a mental health crisis, please reach out:</p>
+      <p>• National Suicide Prevention Lifeline: <a href="tel:988">988</a></p>
+      <p>• Crisis Text Line: Text HOME to <a href="sms:741741">741741</a></p>
+      <p>• International Association for Suicide Prevention: <a href="https://www.iasp.info/resources/Crisis_Centres/" target="_blank">Crisis Centers</a></p>
+    </div>
+
+    <h3>Changes to Terms</h3>
+    <p>We may update these terms periodically. Continued use of MoodSphere after changes constitutes acceptance of the new terms.</p>
+
+    <div class="contact-info">
+      <p>Questions about these terms? Contact us </p>
+    </div>
+
+    <p><em>Last updated: January 2025</em></p>
+    
+    <a href="index.html" class="back-link">Back to MoodSphere</a>
   </div>
+
+  <footer>
+    <p>© 2025 MoodSphere - Supporting your wellness journey responsibly</p>
+  </footer>
+
+  <script>
+    // Apply saved theme on page load
+    function initTheme() {
+      const savedTheme = localStorage.getItem('currentTheme') || 'light';
+      document.body.classList.toggle('dark', savedTheme === 'dark');
+    }
+    
+    initTheme();
+  </script>
 </body>
 </html>

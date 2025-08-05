@@ -80,6 +80,106 @@
   function getEmoji(m) {
     return {Great:'😄',Good:'😊',Okay:'😐','Not Great':'😕',Bad:'😢',Anxious:'😰'}[m]||'😊';
   }
+  // --- Mood Analytics Charts ---
+  // Add these variables at the top of the file with other declarations
+  let moodBarChart = null;
+  let moodLineChart = null;
+
+  // Update the updateCharts function
+  function updateCharts() {
+    // Destroy existing charts if they exist
+    if (moodBarChart) moodBarChart.destroy();
+    if (moodLineChart) moodLineChart.destroy();
+
+    const barCtx = document.getElementById('moodBarChart');
+    const lineCtx = document.getElementById('moodLineChart');
+
+    if (!barCtx || !lineCtx) return;
+
+    // Bar Chart - Mood Frequency
+    const moodCounts = {};
+    moodHistory.forEach(entry => {
+      moodCounts[entry.mood] = (moodCounts[entry.mood] || 0) + 1;
+    });
+
+    moodBarChart = new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(moodCounts),
+        datasets: [{
+          label: 'Mood Frequency',
+          data: Object.values(moodCounts),
+          backgroundColor: [
+            '#4CAF50', // Great
+            '#8BC34A', // Good
+            '#FFC107', // Okay
+            '#FF9800', // Not Great
+            '#F44336', // Bad
+            '#9C27B0'  // Anxious
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        }
+      }
+    });
+
+    // Line Chart - Mood Changes Over Time
+    const last7Days = moodHistory.slice(0, 7).reverse();
+    moodLineChart = new Chart(lineCtx, {
+      type: 'line',
+      data: {
+        labels: last7Days.map(entry => entry.date),
+        datasets: [{
+          label: 'Mood Trend',
+          data: last7Days.map(entry => {
+            const moodValues = {
+              'Great': 5,
+              'Good': 4,
+              'Okay': 3,
+              'Not Great': 2,
+              'Bad': 1,
+              'Anxious': 1.5
+            };
+            return moodValues[entry.mood];
+          }),
+          borderColor: '#3498db',
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            min: 0,
+            max: 6,
+            ticks: {
+              stepSize: 1,
+              callback: function(value) {
+                return ['', 'Bad', 'Not Great', 'Okay', 'Good', 'Great'][value] || '';
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Update charts when mood history changes
   function renderHistory() {
     if (!historyList) return;
     historyList.innerHTML = '';
@@ -99,6 +199,7 @@
       `;
       historyList.appendChild(d);
     });
+    updateCharts(); // Add this line to update charts when history changes
   }
   window.removeMood = id => {
     moodHistory = moodHistory.filter(e=>e.id!==id);

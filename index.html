@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>MoodSpace</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -71,6 +72,15 @@
         <button id="setReminderBtn">Set Reminder</button>
       </div>
       <div id="reminderStatus" style="margin-top: 10px; font-size: 12px; color: #7f8c8d;"></div>
+    </div>
+
+    <!-- ANALYTICS -->
+    <div class="analytics-section">
+      <h3 class="section-title">Mood Analytics</h3>
+      <div class="chart-container">
+        <canvas id="moodBarChart"></canvas>
+        <canvas id="moodLineChart"></canvas>
+      </div>
     </div>
 
     <!-- HISTORY -->

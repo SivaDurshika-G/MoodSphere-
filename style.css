@@ -384,6 +384,27 @@ body {
   margin-top: 30px;
 }
 
+.analytics-section {
+  background: var(--card-bg);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: var(--card-shadow);
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+  height: 400px; /* Set a fixed height */
+}
+
+.chart-container canvas {
+  width: 100% !important;
+  height: 200px !important; /* Set a fixed height for each chart */
+}
+
 .history-item {
   background: white;
   border-radius: 15px;
@@ -668,10 +689,17 @@ footer a:hover::after {
   25%, 75% { transform: scale(1.1); }
 }
 
+:root {
+  --card-bg: #ffffff;
+  --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
 /* Dark theme */
 body.dark {
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   color: #e0e0e0;
+  --card-bg: #374151;
+  --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 body.dark .brand-logo {

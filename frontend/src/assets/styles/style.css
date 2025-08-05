@@ -1,0 +1,20 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #f5f7fa;
+  color: #333;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: #667eea;
+  color: #fff;
+}
+.nav-links { list-style: none; display: flex; gap: 1rem; }
+.nav-links a { color: #fff; text-decoration: none; }
+.page { max-width: 600px; margin: 2rem auto; padding: 1rem; background: #fff; border-radius: 8px; }
+.mood-form select, .mood-form textarea { width: 100%; margin: .5rem 0; padding: .5rem; }
+.mood-form button { background: #764ba2; color: #fff; border: none; padding: .6rem 1.2rem; cursor: pointer; border-radius: 4px; }
+.history-list { list-style: none; padding: 0; }
+.history-list li { margin: 1rem 0; padding: .8rem; border-bottom: 1px solid #eee; }

@@ -6,10 +6,11 @@ export default function VerifyOTP() {
   const [otp, setOtp] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+
   const email = localStorage.getItem('resetEmail');
   const step = localStorage.getItem('resetStep');
 
-  // 🚫 Redirect if reached without completing previous step
+  // 🚫 Redirect if user skipped forgot password step
   useEffect(() => {
     if (!email || step !== 'otpSent') {
       navigate('/forgot-password');
@@ -26,7 +27,7 @@ export default function VerifyOTP() {
       });
 
       setMessage(res.data.message);
-      localStorage.setItem('resetStep', 'otpVerified'); // next step allowed
+      localStorage.setItem('resetStep', 'otpVerified'); // ✅ mark step complete
       navigate('/reset-password');
     } catch (err) {
       setMessage(err.response?.data?.message || 'Invalid or expired OTP');

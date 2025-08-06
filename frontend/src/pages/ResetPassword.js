@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { API } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +8,15 @@ export default function ResetPassword() {
   const [loading, setLoading] = useState(false);
 
   const email = localStorage.getItem('resetEmail');
+  const step = localStorage.getItem('resetStep');
   const navigate = useNavigate();
+
+  // 🚫 Redirect if reached without completing OTP verification
+  useEffect(() => {
+    if (!email || step !== 'otpVerified') {
+      navigate('/forgot-password');
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,10 +34,11 @@ export default function ResetPassword() {
       });
 
       setMessage('✅ Password reset successful! Logging out...');
-      
-      // 🚨 Clear any existing login tokens/session
-      localStorage.removeItem('token');        // assuming your token is stored here
+
+      // Clear session data
+      localStorage.removeItem('token');        // logout
       localStorage.removeItem('resetEmail');
+      localStorage.removeItem('resetStep');    // ✅ clear step
 
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {

@@ -1,5 +1,6 @@
-// frontend/src/components/Navbar.js
+import React from 'react';
 import { Link } from 'react-router-dom';
+import '../assets/styles/Navbar.css';
 
 export default function Navbar() {
   const token = localStorage.getItem('token');
@@ -18,8 +19,7 @@ export default function Navbar() {
             <li><Link to="/register">Register</Link></li>
           </>
         )}
-        <li><Link to="/privacy">Privacy</Link></li>
-        <li><Link to="/terms">Terms</Link></li>
+        
       </ul>
     </nav>
   );

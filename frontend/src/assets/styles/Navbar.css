@@ -1,0 +1,62 @@
+/* Navbar Container */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Brand Title */
+.navbar h1 {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  margin: 0;
+}
+
+/* Menu List */
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Links */
+.navbar ul li a {
+  text-decoration: none;
+  color: #2c3e50;
+  font-size: 0.9rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.navbar ul li a:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Dark Theme Overrides */
+body.dark .navbar {
+  background: rgba(44, 62, 80, 0.8);
+}
+
+body.dark .navbar h1,
+body.dark .navbar ul li a {
+  color: #ecf0f1;
+}
+
+body.dark .navbar ul li a:hover {
+  background: rgba(236, 240, 241, 0.1);
+}

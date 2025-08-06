@@ -1,35 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API } from '../services/api';
+import { API } from '../services/api'; // axios instance with token interceptor
+import MoodChart from '../components/MoodChart'; // adjust path if needed
+
 
 export default function Dashboard() {
-  const [entries, setEntries] = useState([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState(null);
+  const [moodData, setMoodData] = useState([]);
 
   useEffect(() => {
-    API.get('/moods')
-      .then(res => setEntries(res.data))
-      .catch(err => {
-        // If unauthorized (token expired/missing), send back to login
-        if (err.response?.status === 401) {
-          localStorage.removeItem('token');
-          navigate('/login');
-        }
-      });
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
+    const fetchData = async () => {
+      try {
+        const [profileRes, moodRes] = await Promise.all([
+          API.get('/users/me'),
+          API.get('/moods'),
+        ]);
+        console.log(profileRes.data)
+        setProfile(profileRes.data);
+        setMoodData(moodRes.data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        navigate('/login');
+      }
+    };
+
+    fetchData();
   }, [navigate]);
 
+  if (loading) return <p>Loading dashboard...</p>;
+
   return (
-    <div className="page dashboard">
-      <h2>Your Mood History</h2>
-      <ul className="history-list">
-        {entries.map(e => (
-          <li key={e._id}>
-            <strong>{e.mood}</strong> on{' '}
-            {new Date(e.createdAt).toLocaleDateString()}
-            {e.note && <p>{e.note}</p>}
-          </li>
-        ))}
-      </ul>
+    <div className="dashboard">
+      <h2>Welcome, {profile.username}</h2>
+
+      <h3>Your Mood History:</h3>
+      {moodData.length === 0 ? (
+        <p>No mood entries yet.</p>
+      ) : (
+        <ul>
+          {moodData.map((entry) => (
+            <li key={entry._id}>
+              {entry.date} - {entry.mood}
+            </li>
+          ))}
+        </ul>
+      )}
+      {moodData.length > 0 && <MoodChart entries={moodData} />}
+
     </div>
+    
   );
 }

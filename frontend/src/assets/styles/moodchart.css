@@ -1,0 +1,27 @@
+/* moodchart.css */
+.mood-chart-container {
+  background-color: var(--bg-color);
+  padding: 1rem;
+  border-radius: 8px;
+  max-width: 600px;   /* Controls width */
+  height: 300px;       /* Controls height */
+  margin: 0 auto;      /* Center it */
+}
+
+:root {
+  --text-color: #333; /* dark text */
+  --grid-color: #ccc;
+  --bg-color: #fff;
+}
+
+body.dark-mode {
+  --text-color: #eee; /* light text for dark bg */
+  --grid-color: #444;
+  --bg-color: #121212;
+}
+
+.mood-chart-container {
+  background-color: var(--bg-color);
+  padding: 1rem;
+  border-radius: 8px;
+}

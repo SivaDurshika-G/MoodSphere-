@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API } from '../services/api';
-
 import '../assets/styles/Auth.css';
 
 export default function Register() {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: ''
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({...formData, [e.target.name]: e.target.value});
@@ -25,6 +25,11 @@ export default function Register() {
     } catch (err) {
       alert(err.response?.data?.message || 'Registration failed.');
     }
+  };
+
+  const handleGoogleRegister = () => {
+    window.location.href = `${process.env.REACT_APP_API_BASE}/auth/google`;
+
   };
 
   return (
@@ -58,6 +63,10 @@ export default function Register() {
           />
           <button type="submit">Register</button>
         </form>
+        <hr />
+        <button className="google-btn" onClick={handleGoogleRegister}>
+          Sign up with Google
+        </button>
       </div>
     </div>
   );

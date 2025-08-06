@@ -8,6 +8,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
+import OAuthSuccess from './pages/OAuthSuccess';
+
 
 export default function App() {
   return (
@@ -20,6 +22,8 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/oauth-success" element={<OAuthSuccess />} />
+
       </Routes>
     </Router>
   );

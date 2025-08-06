@@ -9,16 +9,22 @@ export default function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  async function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await API.post('/auth/login', { email, password });
       localStorage.setItem('token', data.token);
       navigate('/dashboard');
+      window.location.reload(); // refresh to update navbar
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
     }
-  }
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = `${process.env.REACT_APP_API_BASE}/auth/google`;
+
+  };
 
   return (
     <div className="page auth">
@@ -42,6 +48,10 @@ export default function Login() {
           />
           <button type="submit">Login</button>
         </form>
+        <hr />
+        <button className="google-btn" onClick={handleGoogleLogin}>
+          Continue with Google
+        </button>
       </div>
     </div>
   );

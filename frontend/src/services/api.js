@@ -1,16 +1,12 @@
 import axios from 'axios';
 
-const client = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api'
+export const API = axios.create({
+  baseURL: process.env.REACT_APP_API_BASE || 'http://localhost:5000/api',
 });
 
-// Add JWT to every request if present
-client.interceptors.request.use(config => {
+// Attach token automatically
+API.interceptors.request.use(cfg => {
   const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
+  if (token) cfg.headers.Authorization = `Bearer ${token}`;
+  return cfg;
 });
-
-export default client;

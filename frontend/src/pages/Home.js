@@ -9,8 +9,8 @@ import ReminderSection from '../components/ReminderSection';
 import HistoryList from '../components/HistoryList';
 import Notification from '../components/Notification';
 import Footer from '../components/Footer';
+import {API} from '../services/api'; // <-- added
 import '../assets/styles/Home.css';
-
 
 export default function Home() {
   const [mood, setMood] = useState(null);
@@ -18,25 +18,36 @@ export default function Home() {
   const [history, setHistory] = useState([]);
   const [notification, setNotification] = useState(null);
 
-  // Load saved entries & theme on mount
+  // Fetch entries from backend on load
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem('moodHistory') || '[]');
-    setHistory(saved);
+    const fetchHistory = async () => {
+      try {
+        const res = await API.get('/moods');
+        setHistory(res.data);
+      } catch (err) {
+        console.error('Error fetching history:', err);
+      }
+    };
+    fetchHistory();
+
     const theme = localStorage.getItem('theme') || 'light';
     if (theme === 'dark') document.body.classList.add('dark');
   }, []);
 
-  // Save a new entry
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!mood) return;
-    const entry = { mood, note, date: new Date().toISOString() };
-    const updated = [entry, ...history];
-    setHistory(updated);
-    localStorage.setItem('moodHistory', JSON.stringify(updated));
-    setNote('');
-    setMood(null);
-    // trigger notification UI
-    setNotification({ text: 'Mood saved!', show: true, onClose: () => setNotification(null) });
+
+    try {
+      const res = await API.post('/moods', { mood, note });
+      const newEntry = res.data;
+      setHistory([newEntry, ...history]);
+      setNote('');
+      setMood(null);
+      setNotification({ text: 'Mood saved!', show: true, onClose: () => setNotification(null) });
+    } catch (err) {
+      console.error('Error saving mood:', err);
+      setNotification({ text: 'Error saving mood', show: true, onClose: () => setNotification(null) });
+    }
   };
 
   return (

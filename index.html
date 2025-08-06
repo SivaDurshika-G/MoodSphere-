@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>MoodSpace</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MoodSphere - Cute Mood Tracker</title>
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
     <div class="app">
@@ -146,6 +154,19 @@
                                 <textarea id="mood-note" placeholder="What made you feel this way? What happened today?" required></textarea>
                             </div>
 
+    <div class="analytics-section">
+      <h3 class="section-title">Mood Analytics</h3>
+      <div class="chart-container">
+        <canvas id="moodBarChart"></canvas>
+        <canvas id="moodLineChart"></canvas>
+      </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="history">
+      <h3 class="section-title">Your Journey</h3>
+      <div id="historyList"></div>
+
                             <div class="form-buttons">
                                 <button type="submit" class="submit-btn">Save Entry 💝</button>
                                 <button type="button" id="cancel-entry-btn" class="cancel-btn">Cancel</button>
@@ -246,6 +267,7 @@
                 <p>Made with 💝 for your emotional wellness journey</p>
             </footer>
         </div>
+
     </div>
 
     <script src="script.js"></script>

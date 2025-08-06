@@ -23,7 +23,10 @@ export default function Login() {
 
   const handleGoogleLogin = () => {
     window.location.href = `${process.env.REACT_APP_API_BASE}/auth/google`;
+  };
 
+  const handleForgotPassword = () => {
+    navigate('/forgot-password');
   };
 
   return (
@@ -46,6 +49,9 @@ export default function Login() {
             onChange={e => setPassword(e.target.value)}
             required
           />
+          <p className="forgot-link" onClick={handleForgotPassword}>
+            Forgot Password?
+          </p>
           <button type="submit">Login</button>
         </form>
         <hr />

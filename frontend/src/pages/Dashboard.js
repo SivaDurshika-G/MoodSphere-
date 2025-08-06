@@ -24,7 +24,6 @@ export default function Dashboard() {
           API.get('/users/me'),
           API.get('/moods'),
         ]);
-        console.log(profileRes.data)
         setProfile(profileRes.data);
         setMoodData(moodRes.data);
         setLoading(false);

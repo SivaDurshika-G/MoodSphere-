@@ -72,3 +72,13 @@ body.dark .auth-card input,
 body.dark .auth-card button {
   color: #ecf0f1;
 }
+.forgot-link {
+  text-align: right;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin: 8px 0;
+}
+.forgot-link:hover {
+  text-decoration: underline;
+}

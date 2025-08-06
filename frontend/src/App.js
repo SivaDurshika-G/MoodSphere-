@@ -9,6 +9,9 @@ import Register from './pages/Register';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import OAuthSuccess from './pages/OAuthSuccess';
+import ForgotPassword from './pages/ForgotPassword';
+import VerifyOTP from './pages/VerifyOTP';
+import ResetPassword from './pages/ResetPassword';
 
 export default function App() {
   // Apply stored theme on load
@@ -32,6 +35,9 @@ export default function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/oauth-success" element={<OAuthSuccess />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/verify-otp" element={<VerifyOTP />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </Router>
   );

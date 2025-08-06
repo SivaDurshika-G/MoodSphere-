@@ -1,33 +1,30 @@
-// backend/utils/sendEmail.js
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
-const sendWelcomeEmail = async (to, username) => {
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS,
+  },
+});
+
+const sendEmail = async ({ to, subject, text, html }) => {
   try {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_PASS, // Use App Password if 2FA is enabled
-      },
-    });
-
     const mailOptions = {
-      from: `"MoodSphere" <${process.env.GMAIL_USER}>`,
+      from: `"MoodSphere Support" <${process.env.GMAIL_USER}>`,
       to,
-      subject: 'Welcome to MoodSphere 🎉',
-      html: `
-        <h2>Hi ${username},</h2>
-        <p>Welcome to <strong>MoodSphere</strong>!</p>
-        <p>We're excited to have you on board. Start tracking your moods and reflect on your journey.</p>
-        <p>Cheers,<br/>The MoodSphere Team</p>
-      `
+      subject,
+      text,
+      html,
     };
 
     await transporter.sendMail(mailOptions);
-    console.log("✅ Welcome email sent to", to);
+    console.log(`✅ Email sent to ${to}`);
   } catch (error) {
-    console.error("❌ Error sending welcome email:", error);
+    console.error(`❌ Failed to send email to ${to}:`, error);
+    throw new Error('Email sending failed');
   }
 };
 
-module.exports = sendWelcomeEmail;
+module.exports = sendEmail;

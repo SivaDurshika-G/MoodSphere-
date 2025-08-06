@@ -1,0 +1,339 @@
+/* Global Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+  padding-top: 80px; /* Add space for brand logo */
+  overflowy:hidden;
+}
+
+/* Brand Logo Styles */
+.brand-logo {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 15px 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  transition: all 0.3s ease;
+  animation: brandFloat 0.8s ease-out;
+}
+
+@keyframes brandFloat {
+  from {
+    opacity: 0;
+    transform: translateX(-50px) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+.brand-logo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+  border-color: rgba(102, 126, 234, 0.4);
+}
+
+.brand-name {
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  position: relative;
+}
+
+.brand-name::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.3s ease;
+}
+
+.brand-logo:hover .brand-name::after {
+  width: 100%;
+}
+
+.brand-tagline {
+  font-size: 11px;
+  color: #7f8c8d;
+  font-weight: 500;
+  margin-top: 2px;
+  opacity: 0.8;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.brand-logo:hover .brand-tagline {
+  opacity: 1;
+  color: #667eea;
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #667eea;
+  transition: 0.4s;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  font-size: 14px;
+  border: 2px solid rgba(102, 126, 234, 0.3);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.slider .sun-icon {
+  color: #ffd700;
+  z-index: 1;
+}
+
+.slider .moon-icon {
+  color: #ffffff;
+  z-index: 1;
+}
+
+input:checked + .slider {
+  background-color: #2d3748;
+  border-color: rgba(45, 55, 72, 0.3);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+input:checked + .slider .sun-icon {
+  color: #ffd700;
+}
+
+input:checked + .slider .moon-icon {
+  color: #f7fafc;
+}
+
+/* Enhanced Footer */
+footer {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 25px 20px;
+  text-align: center;
+  margin-top: 40px;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  border-bottom: none;
+}
+
+footer p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  transition: color 0.3s ease;
+}
+
+footer a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+footer a:hover {
+  background: rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
+}
+
+footer a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background: #667eea;
+  transition: all 0.3s ease;
+}
+
+footer a:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+.footer-divider {
+  margin: 0 12px;
+  color: #cbd5e1;
+  font-weight: 300;
+}
+
+.footer-heart {
+  color: #ef4444;
+  animation: heartbeat 2s infinite;
+  margin: 0 4px;
+}
+
+@keyframes heartbeat {
+  0%, 50%, 100% { transform: scale(1); }
+  25%, 75% { transform: scale(1.1); }
+}
+
+/* Dark theme */
+body.dark {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: #e0e0e0;
+}
+
+body.dark .brand-logo {
+  background: rgba(30, 30, 30, 0.95);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+body.dark .brand-name {
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.dark .brand-name::after {
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+}
+
+body.dark .brand-tagline {
+  color: #9ca3af;
+}
+
+body.dark .brand-logo:hover .brand-tagline {
+  color: #8b5cf6;
+}
+
+body.dark footer {
+  background: linear-gradient(135deg, rgba(30,30,30,0.95) 0%, rgba(40,40,40,0.95) 100%);
+  border-top: 1px solid rgba(75, 85, 99, 0.5);
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(75, 85, 99, 0.3);
+  border-bottom: none;
+}
+
+body.dark footer p {
+  color: #9ca3af;
+}
+
+body.dark footer a {
+  color: #8b5cf6;
+}
+
+body.dark footer a:hover {
+  background: rgba(139, 92, 246, 0.1);
+}
+
+body.dark footer a::after {
+  background: #8b5cf6;
+}
+
+body.dark .footer-divider {
+  color: #4b5563;
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  footer {
+    padding: 20px 15px;
+    margin: 20px 10px 0;
+  }
+
+  footer p {
+    font-size: 13px;
+  }
+
+  .switch {
+    width: 50px;
+    height: 26px;
+  }
+  
+  .switch .slider {
+    padding: 0 6px;
+    font-size: 12px;
+  }
+  
+  .switch .slider:before {
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 2px;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(20px);
+  }
+}

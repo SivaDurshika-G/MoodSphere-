@@ -1,0 +1,530 @@
+.app-container {
+  max-width: 400px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 25px;
+  padding: 30px 25px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  animation: slideUp 0.6s ease-out;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.greeting {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  transition: color 0.3s ease;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #7f8c8d;
+  font-weight: 400;
+  transition: color 0.3s ease;
+}
+
+.stats-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 25px 0;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stats-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.stats-number {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.stats-text {
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 15px;
+}
+
+.reset-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 3;
+}
+
+.reset-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.reset-btn:active {
+  transform: translateY(0px);
+}
+
+.mood-section {
+  margin: 30px 0;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.mood-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 10px;
+  border: none;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+  color: #5a6c7d;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mood-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.5s;
+}
+
+.mood-btn:hover::before {
+  left: 100%;
+}
+
+.mood-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.mood-btn.selected {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  animation: pulse 2s infinite;
+  border: 1px solid rgba(102, 126, 234, 0.6);
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4); }
+  50% { box-shadow: 0 8px 25px rgba(102, 126, 234, 0.7); }
+  100% { box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4); }
+}
+
+.mood-emoji {
+  font-size: 20px;
+}
+
+.note-section {
+  margin: 25px 0;
+}
+
+#note {
+  width: 100%;
+  min-height: 80px;
+  padding: 15px;
+  border: 2px solid #e8ecef;
+  border-radius: 15px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  background: white;
+  transition: all 0.3s ease;
+  color: #2c3e50;
+}
+
+#note:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.save-btn {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 20px 0;
+  border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+.reminder-section {
+  background: #f8f9fa;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.reminder-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #5a6c7d;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+.reminder-input-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+#reminderTime {
+  flex: 1;
+  padding: 10px 15px;
+  border: 2px solid #e8ecef;
+  border-radius: 10px;
+  font-size: 14px;
+  background: white;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+}
+
+#reminderTime:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+#setReminderBtn {
+  padding: 10px 20px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+#setReminderBtn:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+.history {
+  margin-top: 30px;
+}
+
+.history-item {
+  background: white;
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.history-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.mood-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mood-emoji-small {
+  font-size: 20px;
+}
+
+.mood-text {
+  font-weight: 500;
+  color: #2c3e50;
+  transition: color 0.3s ease;
+}
+
+.mood-date {
+  font-size: 12px;
+  color: #7f8c8d;
+  transition: color 0.3s ease;
+}
+
+.remove-btn {
+  padding: 8px 12px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.remove-btn:hover {
+  background: #c82333;
+  transform: scale(1.05);
+}
+
+/* Custom Notification System */
+.custom-notification {
+  position: fixed;
+  top: 80px;
+  right: -400px;
+  z-index: 9999;
+  transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  max-width: 350px;
+}
+
+.custom-notification.show {
+  right: 20px;
+}
+
+.notification-content {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 20px;
+  padding: 18px 22px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.notification-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.notification-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  animation: notificationPulse 2s infinite;
+}
+
+@keyframes notificationPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.notification-text {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2c3e50;
+  line-height: 1.4;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: #7f8c8d;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.notification-close:hover {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  transform: scale(1.1);
+}
+
+/* Dark theme for Home */
+body.dark .app-container {
+  background: rgba(30, 30, 30, 0.95);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(102, 126, 234, 0.3);
+}
+
+body.dark .greeting {
+  color: #f1f5f9;
+}
+
+body.dark .subtitle {
+  color: #cbd5e1;
+}
+
+body.dark .section-title {
+  color: #f1f5f9;
+}
+
+body.dark .mood-btn,
+body.dark .history-item {
+  background: #374151;
+  color: #f1f5f9;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+body.dark .mood-btn:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: 2px solid rgba(102, 126, 234, 0.6);
+}
+
+body.dark .mood-btn.selected {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border: 2px solid rgba(102, 126, 234, 0.8);
+}
+
+body.dark #note {
+  background: #374151;
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  color: #f1f5f9;
+}
+
+body.dark #note::placeholder {
+  color: #9ca3af;
+}
+
+body.dark .reminder-section {
+  background: #374151;
+  border: 2px solid rgba(102, 126, 234, 0.3);
+}
+
+body.dark .reminder-label {
+  color: #d1d5db;
+}
+
+body.dark #reminderTime {
+  background: #4b5563;
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  color: #f1f5f9;
+}
+
+body.dark .mood-text {
+  color: #f1f5f9;
+}
+
+body.dark .mood-date {
+  color: #9ca3af;
+}
+
+/* Dark theme notification */
+body.dark .notification-content {
+  background: rgba(30, 30, 30, 0.95);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+}
+
+body.dark .notification-content::before {
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+}
+
+body.dark .notification-text {
+  color: #f1f5f9;
+}
+
+body.dark .notification-close {
+  color: #9ca3af;
+}
+
+body.dark .notification-close:hover {
+  color: #ef4444;
+}
+
+@media (max-width: 480px) {
+  .app-container {
+    margin: 10px;
+    padding: 20px;
+  }
+  
+  .mood-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -8,6 +8,8 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const moodRoutes = require('./routes/moodRoutes');
 const { errorHandler } = require('./middleware/errorHandler');
+const reminderRoutes = require('./routes/reminderRoutes');
+
 require('./config/passport');
 
 dotenv.config();
@@ -31,6 +33,8 @@ app.use(passport.session());
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/moods', moodRoutes);
+app.use('/api/reminder', reminderRoutes);
+
 
 // Error handler
 app.use(errorHandler);

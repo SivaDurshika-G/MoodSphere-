@@ -1,0 +1,12 @@
+.mood-carousel {
+  margin-top: 1.5rem;
+}
+
+.mood-box {
+  background: #e0f7fa;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  text-align: center;
+  transition: opacity 0.3s;
+}

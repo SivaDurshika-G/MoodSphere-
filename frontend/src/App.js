@@ -12,6 +12,8 @@ import OAuthSuccess from './pages/OAuthSuccess';
 import ForgotPassword from './pages/ForgotPassword';
 import VerifyOTP from './pages/VerifyOTP';
 import ResetPassword from './pages/ResetPassword';
+import MoodCalendar from './pages/CalendarPage';
+
 
 export default function App() {
   // Apply stored theme on load
@@ -38,6 +40,8 @@ export default function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/calendar" element={<MoodCalendar />} />
+
       </Routes>
     </Router>
   );

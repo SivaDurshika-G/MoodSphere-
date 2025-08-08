@@ -1,6 +1,6 @@
 // src/pages/Home.js
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import BrandLogo from '../components/BrandLogo';
 import ThemeToggle from '../components/ThemeToggle';
 import StatsCard from '../components/StatsCard';
@@ -30,8 +30,8 @@ export default function Home() {
   // AI Chat states
   const [showChat, setShowChat] = useState(false);
   const [introMsg, setIntroMsg] = useState('');
+  const [assistantPrompt, setAssistantPrompt] = useState('');
 
-  // Helper to fire any notification
   const fireNotification = ({ text, icon = '🔔' }) => {
     setNotification({
       show: true,
@@ -41,7 +41,6 @@ export default function Home() {
     });
   };
 
-  // Fetch history + apply theme on mount
   useEffect(() => {
     (async () => {
       try {
@@ -70,11 +69,11 @@ export default function Home() {
       setMood(null);
       fireNotification({ text: 'Mood saved!', icon: '✅' });
 
-      // If mood is low (e.g. 1–3), auto-open the chat modal
-      if (res.data.mood <= 3) {
-        setIntroMsg("I’m here for you—want to talk about what’s on your mind?");
-        setShowChat(true);
-      }
+      // Trigger assistant with mood prompt
+      const prompt = `I am feeling ${res.data.mood} today.`;
+      setAssistantPrompt(prompt);
+      setIntroMsg("Got it. Let's talk about it...");
+      setShowChat(true);
     } catch (err) {
       console.error('Error saving mood:', err);
       fireNotification({ text: 'Error saving mood', icon: '❌' });
@@ -97,25 +96,23 @@ export default function Home() {
         <NoteSection note={note} onChange={setNote} />
         <SaveButton onClick={handleSave} />
 
-        {/* ReminderSection can still trigger notifications */}
         <ReminderSection onNotification={fireNotification} />
-
         <HistoryList entries={history} />
       </div>
 
-      {/* Floating AI chat button */}
       <FloatingChatButton
         onClick={() => {
           setIntroMsg('Hi there! How can I support you today?');
+          setAssistantPrompt('');
           setShowChat(true);
         }}
       />
 
-      {/* Chat modal */}
       <ChatModal
         isOpen={showChat}
         onClose={() => setShowChat(false)}
         initialMessage={introMsg}
+        initialPrompt={assistantPrompt}
       />
 
       <Notification data={notification} />

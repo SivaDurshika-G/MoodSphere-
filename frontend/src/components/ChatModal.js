@@ -1,8 +1,10 @@
+// src/components/ChatModal.js
+
 import React from 'react';
 import '../assets/styles/ChatModal.css';
 import AssistantChat from './AssistantChat';
 
-export default function ChatModal({ isOpen, onClose, initialMessage }) {
+export default function ChatModal({ isOpen, onClose, initialMessage, initialPrompt }) {
   if (!isOpen) return null;
   return (
     <div className="chat-modal-overlay" onClick={onClose}>
@@ -13,7 +15,7 @@ export default function ChatModal({ isOpen, onClose, initialMessage }) {
             <p>{initialMessage}</p>
           </div>
         )}
-        <AssistantChat />
+        <AssistantChat initialMessage={initialMessage} initialPrompt={initialPrompt} />
       </div>
     </div>
   );

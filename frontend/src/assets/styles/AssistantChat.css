@@ -54,3 +54,36 @@
   border-radius: 4px;
   cursor: pointer;
 }
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 5px 10px;
+  align-items: center;
+}
+
+.typing-indicator .dot {
+  width: 6px;
+  height: 6px;
+  background-color: #ccc;
+  border-radius: 50%;
+  animation: blink 1.4s infinite both;
+}
+
+.typing-indicator .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing-indicator .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+

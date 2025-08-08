@@ -1,45 +1,95 @@
-// frontend/src/components/AssistantChat.jsx
+// src/components/AssistantChat.jsx
 
 import React, { useState, useRef, useEffect } from 'react';
 import { chatWithAssistant } from '../services/api';
 import '../assets/styles/AssistantChat.css';
 
-export default function AssistantChat({ initialMessage }) {
+export default function AssistantChat({ initialMessage, initialPrompt }) {
   const [messages, setMessages] = useState([]);
-  const [input, setInput]         = useState('');
-  const bottomRef                 = useRef();
+  const [input, setInput] = useState('');
+  const [typing, setTyping] = useState(false);
+  const bottomRef = useRef();
 
-  // On mount, if there’s an initial prompt, add it as bot message
   useEffect(() => {
-    if (initialMessage) {
-      setMessages([{ from: 'bot', text: initialMessage }]);
-    }
-  }, [initialMessage]);
+    const init = async () => {
+      if (initialMessage) {
+        setMessages([{ from: 'bot', text: formatBotMessage(initialMessage) }]);
+      }
 
-  // Scroll to bottom on new message
+      if (initialPrompt) {
+        setTyping(true);
+        try {
+          const { data } = await chatWithAssistant(initialPrompt);
+          let reply = data.reply || 'Hmm... I didn’t get that 🤔';
+          if (reply.length > 400) {
+            reply = reply.slice(0, 350) + '... 😅';
+          }
+          setMessages((msgs) => [
+            ...msgs,
+            { from: 'bot', text: formatBotMessage(reply) },
+          ]);
+        } catch (err) {
+          console.error('Chat error:', err);
+          setMessages((msgs) => [
+            ...msgs,
+            {
+              from: 'bot',
+              text: 'Oops! Something went wrong 💥 Please try again.',
+            },
+          ]);
+        } finally {
+          setTyping(false);
+        }
+      }
+    };
+
+    init();
+  }, [initialMessage, initialPrompt]);
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  const formatBotMessage = (msg) => {
+    const greetings = ['😊', '💬', '👋', '✨'];
+    const randomEmoji = greetings[Math.floor(Math.random() * greetings.length)];
+    return `${msg} ${randomEmoji}`;
+  };
+
   const sendMessage = async () => {
     const text = input.trim();
     if (!text) return;
-    // Add user message
-    setMessages(msgs => [...msgs, { from: 'user', text }]);
+
+    setMessages((msgs) => [...msgs, { from: 'user', text }]);
     setInput('');
+    setTyping(true);
+
     try {
       const { data } = await chatWithAssistant(text);
-      setMessages(msgs => [...msgs, { from: 'bot', text: data.reply }]);
+      let reply = data.reply || 'Hmm... I didn’t get that 🤔';
+      if (reply.length > 400) {
+        reply = reply.slice(0, 350) + '... 😅';
+      }
+
+      setMessages((msgs) => [
+        ...msgs,
+        { from: 'bot', text: formatBotMessage(reply) },
+      ]);
     } catch (err) {
       console.error('Chat error:', err);
-      setMessages(msgs => [...msgs, {
-        from: 'bot',
-        text: 'Sorry, something went wrong. Please try again later.'
-      }]);
+      setMessages((msgs) => [
+        ...msgs,
+        {
+          from: 'bot',
+          text: 'Oops! Something went wrong 💥 Please try again.',
+        },
+      ]);
+    } finally {
+      setTyping(false);
     }
   };
 
-  const handleKeyDown = e => {
+  const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
@@ -54,19 +104,29 @@ export default function AssistantChat({ initialMessage }) {
             {m.text}
           </div>
         ))}
+
+        {typing && (
+          <div className="chat-msg bot typing-indicator">
+            <span className="dot"></span>
+            <span className="dot"></span>
+            <span className="dot"></span>
+          </div>
+        )}
+
         <div ref={bottomRef} />
       </div>
+
       <div className="chat-input-area">
         <textarea
           className="chat-input"
           rows="1"
           value={input}
           placeholder="Type your message..."
-          onChange={e => setInput(e.target.value)}
+          onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
         />
         <button className="chat-send-btn" onClick={sendMessage}>
-          Send
+          ➤
         </button>
       </div>
     </div>

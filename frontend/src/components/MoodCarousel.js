@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import '../assets/styles/MoodCarousel.css';
 
+const moodEmojiMap = {
+  Great: '😄',
+  Good: '😊',
+  Okay: '😐',
+  'Not Great': '😕',
+  Bad: '😢',
+  Anxious: '😰',
+};
+
+
 export default function MoodCarousel({ moods }) {
   const [index, setIndex] = useState(0);
 
@@ -17,7 +27,10 @@ export default function MoodCarousel({ moods }) {
 
   return (
     <div className="mood-carousel">
-      <div className="mood-box">{mood.text}</div>
+      <div className="mood-box">
+        <span className="emoji">{moodEmojiMap[mood.mood] || '❓'}</span>
+        <span className="note">{mood.note}</span>
+      </div>
     </div>
   );
 }

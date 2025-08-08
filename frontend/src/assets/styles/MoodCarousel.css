@@ -1,12 +1,31 @@
 .mood-carousel {
-  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  overflow: hidden;
+  padding: 5px;
 }
 
 .mood-box {
-  background: #e0f7fa;
-  padding: 8px;
+  background-color: #fff;
   border-radius: 8px;
-  font-size: 0.85rem;
+  padding: 6px 10px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
   text-align: center;
-  transition: opacity 0.3s;
+  width: 100%;
+  font-size: 14px;
+}
+
+.emoji {
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.note {
+  font-size: 13px;
+}
+.mood-icon {
+  font-size: 1.3rem;
+  text-align: center;
 }

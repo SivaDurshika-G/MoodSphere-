@@ -1,0 +1,44 @@
+.carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
+  height: 200px;
+}
+
+.note-card {
+  width: 200px;
+  height: 200px;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  background-color: #fdfdfd;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease-in-out;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.note-card h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.note-card p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  color: #444;
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.note-card small {
+  color: #888;
+  font-size: 0.75rem;
+  text-align: right;
+}

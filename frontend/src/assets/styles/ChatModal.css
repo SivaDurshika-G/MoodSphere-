@@ -1,0 +1,33 @@
+.chat-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: flex-end; /* pop up from bottom */
+  justify-content: flex-end;
+  padding: 24px;
+  z-index: 1000;
+}
+.chat-modal {
+  width: 350px;
+  max-height: 80vh;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.chat-modal-close {
+  align-self: flex-end;
+  margin: 8px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.chat-modal-intro {
+  padding: 0 16px;
+  font-style: italic;
+  color: var(--text-secondary);
+}

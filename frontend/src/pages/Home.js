@@ -11,6 +11,8 @@ import ReminderSection from '../components/ReminderSection';
 import HistoryList from '../components/HistoryList';
 import Notification from '../components/Notification';
 import Footer from '../components/Footer';
+import FloatingChatButton from '../components/FloatingChatButton';
+import ChatModal from '../components/ChatModal';
 import { API } from '../services/api';
 import '../assets/styles/Home.css';
 
@@ -25,6 +27,10 @@ export default function Home() {
     onClose: () => setNotification(n => ({ ...n, show: false })),
   });
 
+  // AI Chat states
+  const [showChat, setShowChat] = useState(false);
+  const [introMsg, setIntroMsg] = useState('');
+
   // Helper to fire any notification
   const fireNotification = ({ text, icon = '🔔' }) => {
     setNotification({
@@ -37,7 +43,7 @@ export default function Home() {
 
   // Fetch history + apply theme on mount
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       try {
         const res = await API.get('/moods');
         setHistory(res.data);
@@ -52,7 +58,7 @@ export default function Home() {
   }, []);
 
   const handleSave = async () => {
-    if (!mood) {
+    if (mood == null) {
       fireNotification({ text: 'Select a mood first!', icon: '⚠️' });
       return;
     }
@@ -63,6 +69,12 @@ export default function Home() {
       setNote('');
       setMood(null);
       fireNotification({ text: 'Mood saved!', icon: '✅' });
+
+      // If mood is low (e.g. 1–3), auto-open the chat modal
+      if (res.data.mood <= 3) {
+        setIntroMsg("I’m here for you—want to talk about what’s on your mind?");
+        setShowChat(true);
+      }
     } catch (err) {
       console.error('Error saving mood:', err);
       fireNotification({ text: 'Error saving mood', icon: '❌' });
@@ -85,15 +97,28 @@ export default function Home() {
         <NoteSection note={note} onChange={setNote} />
         <SaveButton onClick={handleSave} />
 
-        {/* Pass fireNotification so ReminderSection can trigger toasts */}
+        {/* ReminderSection can still trigger notifications */}
         <ReminderSection onNotification={fireNotification} />
 
         <HistoryList entries={history} />
       </div>
 
-      {/* Single Notification component */}
-      <Notification data={notification} />
+      {/* Floating AI chat button */}
+      <FloatingChatButton
+        onClick={() => {
+          setIntroMsg('Hi there! How can I support you today?');
+          setShowChat(true);
+        }}
+      />
 
+      {/* Chat modal */}
+      <ChatModal
+        isOpen={showChat}
+        onClose={() => setShowChat(false)}
+        initialMessage={introMsg}
+      />
+
+      <Notification data={notification} />
       <Footer />
     </>
   );

@@ -121,21 +121,28 @@ export default function ReminderSection({ onNotification }) {
   return (
     <div className="reminder-section">
       <style>{`
-        .switch {
+        .reminder-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .reminder-section .switch {
           position: relative;
           display: inline-block;
           width: 60px;
-          height: 34px;
+          height: 28px;
+          transform: translateY(-28px);
         }
 
-        .switch input {
+        .reminder-section .switch input {
           opacity: 0;
           width: 0;
           height: 0;
         }
 
-        .slider {
-          position: absolute;
+        .reminder-section .slider {
+          position: relative;
           cursor: pointer;
           top: 0;
           left: 0;
@@ -144,39 +151,55 @@ export default function ReminderSection({ onNotification }) {
           background-color: #ccc;
           transition: 0.4s;
           border-radius: 34px;
+          width: 100%;
+          height: 100%;
         }
 
-        .slider:before {
+        .reminder-section .slider:before {
           position: absolute;
           content: "";
-          height: 26px;
-          width: 26px;
+          height: 20px;
+          width: 20px;
           left: 4px;
           bottom: 4px;
           background-color: white;
           transition: 0.4s;
           border-radius: 50%;
+          z-index: 2;
         }
 
-        input:checked + .slider {
+        .reminder-section .slider:after {
+          content: attr(data-label);
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 10px;
+          font-weight: bold;
+          color: white;
+          text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+          z-index: 1;
+        }
+
+        .reminder-section input:not(:checked) + .slider:after {
+          content: "OFF";
+          right: 8px;
+        }
+
+        .reminder-section input:checked + .slider {
           background-color: #4caf50;
         }
 
-        input:checked + .slider:before {
-          transform: translateX(26px);
+        .reminder-section input:checked + .slider:before {
+          transform: translateX(32px);
         }
 
-        .slider.round {
+        .reminder-section input:checked + .slider:after {
+          content: "ON";
+          left: 8px;
+        }
+
+        .reminder-section .slider.round {
           border-radius: 34px;
-        }
-
-        .slider.round:after {
-          content: attr(data-label);
-          position: absolute;
-          right: 10px;
-          top: 6px;
-          font-size: 12px;
-          color: white;
         }
       `}</style>
 
@@ -184,10 +207,7 @@ export default function ReminderSection({ onNotification }) {
         <div className="reminder-label">Daily Check-in Reminder</div>
         <label className="switch">
           <input type="checkbox" checked={reminderEnabled} onChange={handleToggle} />
-          <span
-            className="slider round"
-            data-label={reminderEnabled ? 'ON' : 'OFF'}
-          ></span>
+          <span className="slider round"></span>
         </label>
       </div>
 
@@ -205,10 +225,11 @@ export default function ReminderSection({ onNotification }) {
       </div>
 
       {reminderStatus && (
-        <div id="reminderStatus" className="reminder-status">
+        <div id="reminderStatus" className="reminder-status" style={{ marginTop: '10px', fontSize: '12px', color: '#7f8c8d' }}>
           {reminderStatus}
         </div>
       )}
     </div>
   );
 }
+

@@ -7,7 +7,6 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Re-read token on every route change
   useEffect(() => {
     setToken(localStorage.getItem('token'));
   }, [location]);
@@ -20,24 +19,16 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <h1>MoodSphere</h1>
-      <ul>
+      <ul className="navbar-menu">
         <li><Link to="/">Home</Link></li>
+        <li><Link to="/contributors">Contributors</Link></li>
 
         {token ? (
           <>
+            <li><Link to="/calendar">Calendar</Link></li>
             <li><Link to="/dashboard">Dashboard</Link></li>
             <li>
-              <button 
-                onClick={handleLogout} 
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: '0.9rem',
-                  padding: '6px 10px'
-                }}
-              >
+              <button onClick={handleLogout} className="logout-btn">
                 Logout
               </button>
             </li>
@@ -48,7 +39,6 @@ export default function Navbar() {
             <li><Link to="/register">Register</Link></li>
           </>
         )}
-
       </ul>
     </nav>
   );

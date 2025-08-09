@@ -10,6 +10,7 @@ const moodRoutes = require('./routes/moodRoutes');
 const { errorHandler } = require('./middleware/errorHandler');
 const reminderRoutes = require('./routes/reminderRoutes');
 const assistantRoutes = require('./routes/assistantRoutes');
+const githubRoutes = require('./routes/githubRoutes');
 
 require('./config/passport');
 
@@ -36,6 +37,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/moods', moodRoutes);
 app.use('/api/reminder', reminderRoutes);
 app.use('/api/assistant', assistantRoutes);
+app.use('/api/github', githubRoutes);
 
 
 

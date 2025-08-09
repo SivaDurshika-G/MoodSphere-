@@ -13,6 +13,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import VerifyOTP from './pages/VerifyOTP';
 import ResetPassword from './pages/ResetPassword';
 import MoodCalendar from './pages/CalendarPage';
+import Contributors from './pages/Contributors';
 
 
 export default function App() {
@@ -41,6 +42,8 @@ export default function App() {
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/calendar" element={<MoodCalendar />} />
+        <Route path="/contributors" element={<Contributors />} />
+
 
       </Routes>
     </Router>

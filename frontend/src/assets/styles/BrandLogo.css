@@ -85,3 +85,14 @@ body.dark .brand-name::after {
 body.dark .brand-tagline {
   color: #9ca3af;
 }
+
+@keyframes brandFloat {
+  from {
+    opacity: 0;
+    transform: translateX(-50px) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}

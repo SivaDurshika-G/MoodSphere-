@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { API } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import '../assets/styles/ForgotPassword.css';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -21,19 +22,21 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="form-container">
-      <h2>Forgot Password</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Your Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
-        <button type="submit">Send OTP</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="page forgot-password">
+      <div className="forgot-password-card">
+        <h2>Forgot Password</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Your Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            required
+          />
+          <button type="submit">Send OTP</button>
+        </form>
+        {message && <div className="message">{message}</div>}
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { API } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import '../assets/styles/VerifyOtp.css';
 
 export default function VerifyOTP() {
   const [otp, setOtp] = useState('');
@@ -35,19 +36,21 @@ export default function VerifyOTP() {
   };
 
   return (
-    <div className="form-container">
-      <h2>Verify OTP</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Enter OTP"
-          value={otp}
-          onChange={e => setOtp(e.target.value)}
-          required
-        />
-        <button type="submit">Verify</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="page verify-otp">
+      <div className="verify-otp-card">
+        <h2>Verify OTP</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Enter OTP"
+            value={otp}
+            onChange={e => setOtp(e.target.value)}
+            required
+          />
+          <button type="submit">Verify</button>
+        </form>
+        {message && <div className="message">{message}</div>}
+      </div>
     </div>
   );
 }

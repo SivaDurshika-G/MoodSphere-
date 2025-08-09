@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { API } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import '../assets/styles/ResetPassword.css';
 
 export default function ResetPassword() {
   const [password, setPassword] = useState('');
@@ -49,21 +50,23 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="form-container">
-      <h2>Reset Password</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="password"
-          placeholder="New Password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Resetting...' : 'Reset Password'}
-        </button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="page reset-password">
+      <div className="reset-password-card">
+        <h2>Reset Password</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="password"
+            placeholder="New Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? 'Resetting...' : 'Reset Password'}
+          </button>
+        </form>
+        {message && <div className="message">{message}</div>}
+      </div>
     </div>
   );
 }

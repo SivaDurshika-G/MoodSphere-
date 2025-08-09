@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
+import BrandLogo from './components/BrandLogo';
+import ThemeToggle from './components/ThemeToggle';
+
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
@@ -14,7 +17,6 @@ import VerifyOTP from './pages/VerifyOTP';
 import ResetPassword from './pages/ResetPassword';
 import MoodCalendar from './pages/CalendarPage';
 import Contributors from './pages/Contributors';
-
 
 export default function App() {
   // Apply stored theme on load
@@ -29,7 +31,11 @@ export default function App() {
 
   return (
     <Router>
+      {/* Always visible on all pages */}
+      <BrandLogo />
+      <ThemeToggle />
       <Navbar />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
@@ -43,8 +49,6 @@ export default function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/calendar" element={<MoodCalendar />} />
         <Route path="/contributors" element={<Contributors />} />
-
-
       </Routes>
     </Router>
   );

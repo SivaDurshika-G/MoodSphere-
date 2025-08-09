@@ -1,4 +1,5 @@
 import React from 'react';
+import '../assets/styles/BrandLogo.css';
 
 export default function BrandLogo() {
   return (

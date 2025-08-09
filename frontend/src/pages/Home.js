@@ -1,8 +1,6 @@
 // src/pages/Home.js
 
-import React, { useState, useEffect, useRef } from 'react';
-import BrandLogo from '../components/BrandLogo';
-import ThemeToggle from '../components/ThemeToggle';
+import React, { useState, useEffect } from 'react';
 import StatsCard from '../components/StatsCard';
 import MoodPicker from '../components/MoodPicker';
 import NoteSection from '../components/NoteSection';
@@ -82,9 +80,6 @@ export default function Home() {
 
   return (
     <>
-      <BrandLogo />
-      <ThemeToggle />
-
       <div className="app-container">
         <header className="header">
           <h1 className="greeting">Welcome</h1>

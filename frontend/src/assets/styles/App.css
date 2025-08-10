@@ -21,131 +21,15 @@ body {
   overflowy:hidden;
 }
 
-footer {
-  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(226, 232, 240, 0.8);
-  padding: 25px 20px;
-  text-align: center;
-  margin-top: 40px;
-  border-radius: 20px 20px 0 0;
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  border: 1px solid rgba(226, 232, 240, 0.5);
-  border-bottom: none;
-}
-
-footer p {
-  margin: 0;
-  color: #64748b;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.6;
-  transition: color 0.3s ease;
-}
-
-footer a {
-  color: #667eea;
-  text-decoration: none;
-  font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-footer a:hover {
-  background: rgba(102, 126, 234, 0.1);
-  transform: translateY(-1px);
-}
-
-footer a::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 50%;
-  background: #667eea;
-  transition: all 0.3s ease;
-}
-
-footer a:hover::after {
-  width: 100%;
-  left: 0;
-}
-
-.footer-divider {
-  margin: 0 12px;
-  color: #cbd5e1;
-  font-weight: 300;
-}
-
-.footer-heart {
-  color: #ef4444;
-  animation: heartbeat 2s infinite;
-  margin: 0 4px;
-}
-
-@keyframes heartbeat {
-  0%, 50%, 100% { transform: scale(1); }
-  25%, 75% { transform: scale(1.1); }
-}
-
 /* Dark theme */
 body.dark {
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   color: #e0e0e0;
 }
 
-
-
-
-
-
-
-
-
-body.dark footer {
-  background: linear-gradient(135deg, rgba(30,30,30,0.95) 0%, rgba(40,40,40,0.95) 100%);
-  border-top: 1px solid rgba(75, 85, 99, 0.5);
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(75, 85, 99, 0.3);
-  border-bottom: none;
-}
-
-body.dark footer p {
-  color: #9ca3af;
-}
-
-body.dark footer a {
-  color: #8b5cf6;
-}
-
-body.dark footer a:hover {
-  background: rgba(139, 92, 246, 0.1);
-}
-
-body.dark footer a::after {
-  background: #8b5cf6;
-}
-
-body.dark .footer-divider {
-  color: #4b5563;
-}
-
 @media (max-width: 480px) {
   body {
     padding: 10px;
-  }
-  
-  footer {
-    padding: 20px 15px;
-    margin: 20px 10px 0;
-  }
-
-  footer p {
-    font-size: 13px;
   }
 
   .switch {

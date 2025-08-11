@@ -1,27 +1,515 @@
-/* moodchart.css */
-.mood-chart-container {
-  background-color: var(--bg-color);
-  padding: 1rem;
-  border-radius: 8px;
-  max-width: 600px;   /* Controls width */
-  height: 300px;       /* Controls height */
-  margin: 0 auto;      /* Center it */
-}
+/* ===== MOOD CHART CSS - COSMIC DASHBOARD ADAPTIVE ===== */
 
+/* ===== CSS VARIABLES FOR MOOD CHART ===== */
 :root {
-  --text-color: #333; /* dark text */
-  --grid-color: #ccc;
-  --bg-color: #fff;
+  /* Light Theme Chart Variables */
+  --chart-bg-primary: rgba(255, 255, 255, 0.15);
+  --chart-bg-secondary: rgba(255, 255, 255, 0.25);
+  --chart-border-color: rgba(255, 255, 255, 0.3);
+  --chart-text-color: #2d1b69;
+  --chart-grid-color: rgba(45, 27, 105, 0.2);
+  --chart-legend-color: #201b5eff;
+  --chart-title-color: #4b1f97ff;
+  --chart-canvas-bg: rgba(255, 255, 255, 0.08);
+  --chart-hover-overlay: rgba(124, 58, 237, 0.1);
+  --chart-glow-color: rgba(124, 58, 237, 0.3);
+  --chart-shadow-color: rgba(0, 0, 0, 0.1);
 }
 
-body.dark-mode {
-  --text-color: #eee; /* light text for dark bg */
-  --grid-color: #444;
-  --bg-color: #121212;
+body.dark {
+  /* Dark Theme Chart Variables */
+  --chart-bg-primary: rgba(0, 0, 0, 0.2);
+  --chart-bg-secondary: rgba(0, 0, 0, 0.35);
+  --chart-border-color: rgba(139, 92, 246, 0.3);
+  --chart-text-color: #ffffff;
+  --chart-grid-color: rgba(139, 92, 246, 0.25);
+  --chart-legend-color: #c4b5fd;
+  --chart-title-color: #bb86fc;
+  --chart-canvas-bg: rgba(139, 92, 246, 0.05);
+  --chart-hover-overlay: rgba(139, 92, 246, 0.15);
+  --chart-glow-color: rgba(139, 92, 246, 0.4);
+  --chart-shadow-color: rgba(139, 92, 246, 0.2);
 }
 
+/* ===== MAIN CHART CONTAINER ===== */
 .mood-chart-container {
-  background-color: var(--bg-color);
-  padding: 1rem;
-  border-radius: 8px;
+  position: relative;
+  background: var(--chart-bg-primary);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--chart-border-color);
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 8px 32px var(--chart-shadow-color),
+    inset 0 2px 0 rgba(255, 255, 255, 0.1);
+  will-change: transform, box-shadow, background;
+  
+  /* Center the chart */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Enhanced hover effect matching dashboard cards */
+.mood-chart-container:hover {
+  background: var(--chart-bg-secondary);
+  transform: translateY(-3px) scale(1.01);
+  border-color: var(--dashboard-glow-primary);
+  box-shadow: 
+    0 15px 40px var(--chart-shadow-color),
+    0 0 25px var(--chart-glow-color),
+    inset 0 2px 0 rgba(255, 255, 255, 0.2);
+}
+
+body.dark .mood-chart-container {
+  box-shadow: 
+    0 8px 32px var(--chart-shadow-color),
+    inset 0 2px 0 rgba(255, 255, 255, 0.05);
+}
+
+body.dark .mood-chart-container:hover {
+  box-shadow: 
+    0 15px 40px var(--chart-shadow-color),
+    0 0 35px var(--chart-glow-color),
+    inset 0 2px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Animated shimmer effect on container */
+.mood-chart-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.1), 
+    transparent
+  );
+  transition: left 0.6s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.mood-chart-container:hover::before {
+  left: 100%;
+}
+
+body.dark .mood-chart-container::before {
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(139, 92, 246, 0.15), 
+    transparent
+  );
+}
+
+/* ===== CHART CANVAS STYLING ===== */
+.mood-chart-container canvas {
+  position: relative;
+  z-index: 2;
+  background: var(--chart-canvas-bg) !important;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 
+    inset 0 2px 8px rgba(0, 0, 0, 0.05),
+    0 2px 8px rgba(124, 58, 237, 0.1);
+  will-change: transform, box-shadow;
+  
+  /* Ensure proper sizing and centering */
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+body.dark .mood-chart-container canvas {
+  box-shadow: 
+    inset 0 2px 8px rgba(0, 0, 0, 0.2),
+    0 2px 12px rgba(139, 92, 246, 0.15);
+}
+
+.mood-chart-container:hover canvas {
+  transform: scale(1.005);
+  box-shadow: 
+    inset 0 2px 12px rgba(0, 0, 0, 0.08),
+    0 4px 16px rgba(124, 58, 237, 0.2);
+}
+
+body.dark .mood-chart-container:hover canvas {
+  box-shadow: 
+    inset 0 2px 12px rgba(0, 0, 0, 0.3),
+    0 4px 20px rgba(139, 92, 246, 0.25);
+}
+
+/* ===== CHART TITLE ENHANCEMENTS ===== */
+.mood-chart-container .chartjs-title {
+  color: var(--chart-title-color) !important;
+  font-family: 'Inter', 'Segoe UI', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.4rem !important;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2) !important;
+  letter-spacing: -0.5px !important;
+  margin-bottom: 1rem !important;
+}
+
+body.dark .mood-chart-container .chartjs-title {
+  text-shadow: 1px 1px 6px rgba(139, 92, 246, 0.3) !important;
+}
+
+/* ===== CHART LEGEND STYLING ===== */
+.mood-chart-container .chartjs-legend {
+  margin-bottom: 1.5rem !important;
+}
+
+.mood-chart-container .chartjs-legend ul {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 1rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.mood-chart-container .chartjs-legend li {
+  display: flex !important;
+  align-items: center !important;
+  background: var(--chart-bg-secondary) !important;
+  border: 1px solid var(--chart-border-color) !important;
+  border-radius: 20px !important;
+  padding: 0.5rem 1rem !important;
+  margin: 0.2rem !important;
+  transition: all 0.3s ease !important;
+  backdrop-filter: blur(10px) !important;
+  cursor: pointer !important;
+  will-change: transform, background, border-color !important;
+}
+
+.mood-chart-container .chartjs-legend li:hover {
+  background: var(--chart-hover-overlay) !important;
+  transform: translateY(-2px) scale(1.05) !important;
+  border-color: var(--dashboard-glow-primary) !important;
+  box-shadow: 0 5px 15px var(--chart-glow-color) !important;
+}
+
+.mood-chart-container .chartjs-legend li span {
+  color: var(--chart-legend-color) !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  margin-left: 0.5rem !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+body.dark .mood-chart-container .chartjs-legend li span {
+  text-shadow: 1px 1px 4px rgba(139, 92, 246, 0.2) !important;
+}
+
+/* ===== CHART AXIS STYLING ===== */
+.mood-chart-container .chartjs-axis {
+  color: var(--chart-text-color) !important;
+  font-family: 'Inter', 'Segoe UI', sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 0.85rem !important;
+}
+
+/* ===== CHART GRID LINES ===== */
+.mood-chart-container .chartjs-grid-line {
+  color: var(--chart-grid-color) !important;
+  stroke-dasharray: 2, 2 !important;
+  opacity: 0.6 !important;
+}
+
+/* ===== CHART TOOLTIP STYLING ===== */
+.mood-chart-container .chartjs-tooltip {
+  background: var(--dashboard-bg-card) !important;
+  border: 2px solid var(--dashboard-glow-primary) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(20px) !important;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.2),
+    0 0 20px var(--chart-glow-color) !important;
+  color: var(--chart-text-color) !important;
+  font-family: 'Inter', 'Segoe UI', sans-serif !important;
+  font-weight: 600 !important;
+  padding: 1rem 1.5rem !important;
+  animation: tooltipGlow 2s ease-in-out infinite !important;
+}
+
+@keyframes tooltipGlow {
+  0%, 100% { 
+    border-color: var(--dashboard-glow-primary);
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.2),
+      0 0 20px var(--chart-glow-color);
+  }
+  50% { 
+    border-color: var(--dashboard-glow-secondary);
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.25),
+      0 0 30px rgba(219, 39, 119, 0.4);
+  }
+}
+
+body.dark .mood-chart-container .chartjs-tooltip {
+  animation: tooltipGlowDark 2s ease-in-out infinite !important;
+}
+
+@keyframes tooltipGlowDark {
+  0%, 100% { 
+    border-color: var(--dashboard-glow-primary);
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.4),
+      0 0 25px var(--chart-glow-color);
+  }
+  50% { 
+    border-color: var(--dashboard-glow-secondary);
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.5),
+      0 0 35px rgba(156, 39, 176, 0.5);
+  }
+}
+
+/* ===== BAR STYLING ENHANCEMENTS ===== */
+.mood-chart-container .chartjs-bar {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2)) !important;
+  will-change: transform, filter !important;
+}
+
+.mood-chart-container .chartjs-bar:hover {
+  transform: scaleY(1.05) !important;
+  filter: 
+    drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3))
+    drop-shadow(0 0 15px var(--dashboard-glow-primary)) !important;
+}
+
+body.dark .mood-chart-container .chartjs-bar:hover {
+  filter: 
+    drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4))
+    drop-shadow(0 0 20px var(--dashboard-glow-primary)) !important;
+}
+
+/* ===== LOADING STATE ===== */
+.mood-chart-container.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.mood-chart-container.loading::after {
+  content: 'Loading chart...';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--chart-text-color);
+  font-weight: 600;
+  font-size: 1.1rem;
+  z-index: 10;
+  animation: loadingPulse 2s ease-in-out infinite;
+}
+
+@keyframes loadingPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ===== ERROR STATE ===== */
+.mood-chart-container.error {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.mood-chart-container.error::after {
+  content: 'Chart data unavailable';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ef4444;
+  font-weight: 600;
+  font-size: 1.1rem;
+  z-index: 10;
+}
+
+/* ===== FLOATING PARTICLES FOR CHART ===== */
+.mood-chart-container .chart-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--dashboard-particle-color);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: chartParticleFloat 8s infinite linear;
+  opacity: 0.6;
+  will-change: transform, opacity;
+}
+
+.mood-chart-container .chart-particle:nth-child(odd) {
+  animation-duration: 12s;
+  animation-direction: reverse;
+}
+
+@keyframes chartParticleFloat {
+  0% {
+    transform: translateY(100px) translateX(0px) scale(0);
+    opacity: 0;
+  }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% {
+    transform: translateY(-100px) translateX(50px) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .mood-chart-container {
+    padding: 1.5rem;
+    margin: 1rem auto;
+    max-width: 95%;
+  }
+  
+  .mood-chart-container > div {
+    height: 350px !important;
+  }
+  
+  .mood-chart-container .chartjs-title {
+    font-size: 1.2rem !important;
+  }
+  
+  .mood-chart-container .chartjs-legend ul {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  .mood-chart-container .chartjs-legend li {
+    margin: 0.3rem 0 !important;
+    padding: 0.4rem 0.8rem !important;
+  }
+  
+  .mood-chart-container .chartjs-legend li span {
+    font-size: 0.8rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .mood-chart-container {
+    padding: 1rem;
+    border-radius: 16px;
+    max-width: 100%;
+    margin: 1rem auto;
+  }
+  
+  .mood-chart-container > div {
+    height: 300px !important;
+  }
+  
+  .mood-chart-container canvas {
+    border-radius: 8px;
+  }
+  
+  .mood-chart-container .chartjs-title {
+    font-size: 1.1rem !important;
+    margin-bottom: 0.8rem !important;
+  }
+  
+  .mood-chart-container .chartjs-tooltip {
+    padding: 0.8rem 1rem !important;
+    font-size: 0.85rem !important;
+  }
+  
+  /* Hide particles on small screens for performance */
+  .mood-chart-container .chart-particle {
+    display: none;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .mood-chart-container,
+  .mood-chart-container *,
+  .mood-chart-container *::before,
+  .mood-chart-container *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+  .mood-chart-container {
+    border-width: 3px;
+    background: var(--chart-bg-secondary);
+  }
+  
+  .mood-chart-container .chartjs-legend li {
+    border-width: 2px;
+    background: var(--chart-bg-primary);
+  }
+}
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+.mood-chart-container * {
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.mood-chart-container canvas,
+.mood-chart-container::before,
+.chart-particle {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* ===== FOCUS STATES FOR ACCESSIBILITY ===== */
+.mood-chart-container:focus-within {
+  outline: 2px solid var(--dashboard-glow-primary);
+  outline-offset: 4px;
+}
+
+.mood-chart-container .chartjs-legend li:focus {
+  outline: 2px solid var(--dashboard-glow-primary);
+  outline-offset: 2px;
+}
+
+/* ===== ENHANCED GRADIENT OVERLAYS ===== */
+.mood-chart-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, var(--dashboard-energy-color) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, var(--dashboard-plasma-color) 0%, transparent 50%);
+  border-radius: 20px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+  animation: chartGradientShift 15s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes chartGradientShift {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg); 
+    opacity: 0.3; 
+  }
+  50% { 
+    transform: scale(1.1) rotate(180deg); 
+    opacity: 0.5; 
+  }
 }

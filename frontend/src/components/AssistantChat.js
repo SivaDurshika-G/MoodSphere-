@@ -1,5 +1,4 @@
 // src/components/AssistantChat.jsx
-
 import React, { useState, useRef, useEffect } from 'react';
 import { chatWithAssistant } from '../services/api';
 import '../assets/styles/AssistantChat.css';
@@ -9,6 +8,8 @@ export default function AssistantChat({ initialMessage, initialPrompt }) {
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
   const bottomRef = useRef();
+  const chatWindowRef = useRef();
+  const textareaRef = useRef();
 
   useEffect(() => {
     const init = async () => {
@@ -20,7 +21,7 @@ export default function AssistantChat({ initialMessage, initialPrompt }) {
         setTyping(true);
         try {
           const { data } = await chatWithAssistant(initialPrompt);
-          let reply = data.reply || 'Hmm... I didn’t get that 🤔';
+          let reply = data.reply || 'Hmm... I didn\'t get that 🤔';
           if (reply.length > 400) {
             reply = reply.slice(0, 350) + '... 😅';
           }
@@ -46,9 +47,25 @@ export default function AssistantChat({ initialMessage, initialPrompt }) {
     init();
   }, [initialMessage, initialPrompt]);
 
+  // Auto-scroll to bottom with smooth behavior
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'end',
+        inline: 'nearest'
+      });
+    }
+  }, [messages, typing]);
+
+  // Auto-resize textarea with proper ref
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.min(textarea.scrollHeight, 80) + 'px';
+    }
+  }, [input]);
 
   const formatBotMessage = (msg) => {
     const greetings = ['😊', '💬', '👋', '✨'];
@@ -66,7 +83,7 @@ export default function AssistantChat({ initialMessage, initialPrompt }) {
 
     try {
       const { data } = await chatWithAssistant(text);
-      let reply = data.reply || 'Hmm... I didn’t get that 🤔';
+      let reply = data.reply || 'Hmm... I didn\'t get that 🤔';
       if (reply.length > 400) {
         reply = reply.slice(0, 350) + '... 😅';
       }
@@ -98,7 +115,13 @@ export default function AssistantChat({ initialMessage, initialPrompt }) {
 
   return (
     <div className="assistant-chat">
-      <div className="chat-window">
+      <div className="chat-window" ref={chatWindowRef}>
+        {messages.length === 0 && !typing && (
+          <div className="empty-state">
+            <p>Hi! How can I help you today? 💬</p>
+          </div>
+        )}
+        
         {messages.map((m, i) => (
           <div key={i} className={`chat-msg ${m.from}`}>
             {m.text}
@@ -118,14 +141,21 @@ export default function AssistantChat({ initialMessage, initialPrompt }) {
 
       <div className="chat-input-area">
         <textarea
+          ref={textareaRef}
           className="chat-input"
           rows="1"
           value={input}
           placeholder="Type your message..."
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
+          aria-label="Chat message input"
         />
-        <button className="chat-send-btn" onClick={sendMessage}>
+        <button 
+          className="chat-send-btn" 
+          onClick={sendMessage}
+          disabled={!input.trim() || typing}
+          aria-label="Send message"
+        >
           ➤
         </button>
       </div>

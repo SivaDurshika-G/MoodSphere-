@@ -6,7 +6,6 @@ import MoodPicker from '../components/MoodPicker';
 import NoteSection from '../components/NoteSection';
 import SaveButton from '../components/SaveButton';
 import ReminderSection from '../components/ReminderSection';
-import HistoryList from '../components/HistoryList';
 import Notification from '../components/Notification';
 import Footer from '../components/Footer';
 import FloatingChatButton from '../components/FloatingChatButton';
@@ -52,7 +51,66 @@ export default function Home() {
 
     const theme = localStorage.getItem('theme') || 'light';
     document.body.classList.toggle('dark', theme === 'dark');
+
+    // Create and append floating background elements
+    createFloatingElements();
   }, []);
+
+  const createFloatingElements = () => {
+    // Create quantum field
+    const quantumField = document.createElement('div');
+    quantumField.className = 'home-quantum-field';
+    document.body.appendChild(quantumField);
+
+    // Create floating objects container
+    const floatingContainer = document.createElement('div');
+    floatingContainer.className = 'home-floating-objects';
+    
+    // Add cubes
+    for (let i = 0; i < 3; i++) {
+      const cube = document.createElement('div');
+      cube.className = 'home-floating-cube';
+      floatingContainer.appendChild(cube);
+    }
+    
+    // Add orbs
+    for (let i = 0; i < 2; i++) {
+      const orb = document.createElement('div');
+      orb.className = 'home-light-orb';
+      floatingContainer.appendChild(orb);
+    }
+    
+    document.body.appendChild(floatingContainer);
+
+    // Create energy pulses
+    for (let i = 0; i < 2; i++) {
+      const pulse = document.createElement('div');
+      pulse.className = 'home-energy-pulse';
+      document.body.appendChild(pulse);
+    }
+
+    // Create particle container
+    const particleContainer = document.createElement('div');
+    particleContainer.className = 'home-particle-container';
+    
+    // Add floating particles
+    for (let i = 0; i < 8; i++) {
+      const particle = document.createElement('div');
+      particle.className = `home-floating-particle type-${(i % 2) + 1}`;
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 25 + 's';
+      particleContainer.appendChild(particle);
+    }
+    
+    document.body.appendChild(particleContainer);
+
+    // Create shooting star
+    const shootingStar = document.createElement('div');
+    shootingStar.className = 'home-shooting-star';
+    shootingStar.style.top = Math.random() * 20 + '%';
+    shootingStar.style.left = Math.random() * 20 + '%';
+    document.body.appendChild(shootingStar);
+  };
 
   const handleSave = async () => {
     if (mood == null) {
@@ -79,21 +137,33 @@ export default function Home() {
   };
 
   return (
-    <>
-      <div className="app-container">
-        <header className="header">
-          <h1 className="greeting">Welcome</h1>
-          <p className="subtitle">How are you feeling today?</p>
-        </header>
+    <div className="page-wrapper">
+      <div className="main-content">
+        <div className="app-container">
+          <header className="header">
+            <h1 className="greeting">Welcome</h1>
+            <p className="subtitle">How are you feeling today?</p>
+          </header>
 
-        <StatsCard count={history.length} />
-        <MoodPicker selected={mood} onSelect={setMood} />
-        <NoteSection note={note} onChange={setNote} />
-        <SaveButton onClick={handleSave} />
+          <StatsCard count={history.length} />
+          
+          <div className="mood-section">
+            <h2 className="section-title">Select Your Mood</h2>
+            <MoodPicker selected={mood} onSelect={setMood} />
+          </div>
+          
+          <div className="note-section">
+            <h2 className="section-title">Add a Note (Optional)</h2>
+            <NoteSection note={note} onChange={setNote} />
+          </div>
+          
+          <SaveButton onClick={handleSave} />
 
-        <ReminderSection onNotification={fireNotification} />
-        <HistoryList entries={history} />
+          <ReminderSection onNotification={fireNotification} />
+        </div>
       </div>
+
+      <Footer />
 
       <FloatingChatButton
         onClick={() => {
@@ -111,7 +181,6 @@ export default function Home() {
       />
 
       <Notification data={notification} />
-      <Footer />
-    </>
+    </div>
   );
 }

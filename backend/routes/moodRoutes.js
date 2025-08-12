@@ -8,7 +8,8 @@ router.route('/')
   .post(protect, createMood)
   .get(protect, getMoods);
 router.get('/monthly', protect, getMonthlyMoods); // ✅ NEW ROUTE
-router.delete('/:id', protect, deleteMood); // ✅ NEW ROUTE
 router.delete('/all', protect, deleteAllMoods); // ✅ New route for reset
+
+router.delete('/:id', protect, deleteMood); // ✅ NEW ROUTE
 
 module.exports = router;

@@ -145,7 +145,11 @@ export default function Home() {
             <p className="subtitle">How are you feeling today?</p>
           </header>
 
-          <StatsCard count={history.length} />
+          <StatsCard 
+              count={history.length} 
+              onResetSuccess={() => setHistory([])} 
+          />
+
           
           <div className="mood-section">
             <h2 className="section-title">Select Your Mood</h2>

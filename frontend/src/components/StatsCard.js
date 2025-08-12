@@ -4,18 +4,17 @@ import { API } from '../services/api';
 export default function StatsCard({ count, onResetSuccess }) {
   const handleReset = async () => {
     try {
-      const token = localStorage.getItem('token'); // ✅ Ensure token is retrieved
+      const token = localStorage.getItem('token');
       if (!token) {
         alert('You must be logged in to reset.');
         return;
       }
 
       await API.delete('/moods/all', {
-        headers: {
-          Authorization: `Bearer ${token}`, // ✅ Send token here
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
+      // ✅ Tell parent reset is complete
       if (onResetSuccess) {
         onResetSuccess();
       }

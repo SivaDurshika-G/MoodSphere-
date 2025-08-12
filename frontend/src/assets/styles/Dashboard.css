@@ -1,6 +1,6 @@
 /* ===== CSS VARIABLES FOR DASHBOARD THEMES ===== */
 :root {
-  /* Light Theme Variables - Enhanced for Better Visibility */
+  /* Light Theme Variables */
   --dashboard-bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
   --dashboard-bg-secondary: rgba(255, 255, 255, 0.35);
   --dashboard-bg-card: rgba(255, 255, 255, 0.25);
@@ -16,12 +16,12 @@
   --dashboard-star-color: #ffffff;
   --dashboard-energy-color: rgba(124, 58, 237, 0.2);
   --dashboard-plasma-color: rgba(219, 39, 119, 0.15);
-  --dashboard-navbar-height: 80px; /* Define navbar height */
-  --dashboard-content-spacing: 1.8rem; /* Spacing between navbar and content */
+  --dashboard-navbar-height: 80px;
+  --dashboard-content-spacing: 1.8rem;
 }
 
 body.dark {
-  /* Dark Theme Variables - Matching Contributors CSS */
+  /* Dark Theme Variables */
   --dashboard-bg-primary: radial-gradient(ellipse at center, #1a0033 0%, #0d001a 50%, #000011 100%);
   --dashboard-bg-secondary: rgba(0, 0, 0, 0.4);
   --dashboard-bg-card: rgba(0, 0, 0, 0.3);
@@ -39,6 +39,27 @@ body.dark {
   --dashboard-plasma-color: rgba(156, 39, 176, 0.12);
 }
 
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+.cosmic-dashboard *,
+.cosmic-dashboard *::before,
+.cosmic-dashboard *::after {
+  will-change: auto;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* GPU layer promotion for animated elements only */
+.dashboard-floating-cube,
+.dashboard-light-orb,
+.dashboard-energy-pulse,
+.dashboard-floating-particle,
+.cosmic-dashboard::before,
+.cosmic-dashboard::after,
+.dashboard-quantum-field {
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+}
+
 /* ===== DASHBOARD MAIN CONTAINER ===== */
 .cosmic-dashboard {
   position: relative;
@@ -48,10 +69,9 @@ body.dark {
   font-family: 'Inter', 'Segoe UI', sans-serif;
   color: var(--dashboard-text-primary);
   max-width: 1200px;
-  margin: 0 auto;
-  /* Add top margin for navbar spacing */
-  margin-top: calc(var(--dashboard-navbar-height) + var(--dashboard-content-spacing));
+  margin: calc(var(--dashboard-navbar-height) + var(--dashboard-content-spacing)) auto 0;
   padding-top: var(--dashboard-content-spacing);
+  contain: layout style;
 }
 
 /* ===== COSMIC BACKGROUND EFFECTS ===== */
@@ -60,10 +80,9 @@ body.dark {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  transition: all 0.3s ease;
 }
 
-/* Enhanced nebula overlay - Optimized with fewer gradients */
+/* Optimized nebula overlay - Reduced complexity */
 .cosmic-dashboard::before {
   content: '';
   position: fixed;
@@ -72,17 +91,16 @@ body.dark {
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 20% 30%, rgba(124, 58, 237, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(219, 39, 119, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.12) 0%, transparent 50%);
-  background-size: 550px 550px, 350px 350px, 250px 250px;
-  animation: dashboardNebulaMove 20s ease-in-out infinite;
+    radial-gradient(circle at 20% 30%, var(--dashboard-energy-color) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, var(--dashboard-plasma-color) 0%, transparent 40%);
+  background-size: 400px 400px, 300px 300px;
+  animation: nebulaMove 25s ease-in-out infinite;
   pointer-events: none;
-  z-index: -1;
-  will-change: transform, opacity;
+  z-index: -2;
+  opacity: 0.8;
 }
 
-/* Star field - Optimized separate layer */
+/* Optimized star field */
 .cosmic-dashboard::after {
   content: '';
   position: fixed;
@@ -91,63 +109,46 @@ body.dark {
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 50% 50%, var(--dashboard-star-color) 0px, transparent 1px),
-    radial-gradient(circle at 10% 20%, var(--dashboard-star-color) 0px, transparent 2px),
-    radial-gradient(circle at 80% 10%, rgba(124, 58, 237, 0.7) 0px, transparent 1px),
-    radial-gradient(circle at 30% 80%, var(--dashboard-star-color) 0px, transparent 2px),
-    radial-gradient(circle at 70% 25%, rgba(219, 39, 119, 0.6) 0px, transparent 1px);
-  background-size: 200px 200px, 150px 150px, 400px 400px, 300px 300px, 450px 450px;
+    radial-gradient(circle at 15% 25%, var(--dashboard-star-color) 0px, transparent 1px),
+    radial-gradient(circle at 85% 75%, var(--dashboard-star-color) 0px, transparent 1px),
+    radial-gradient(circle at 45% 15%, rgba(124, 58, 237, 0.6) 0px, transparent 1px);
+  background-size: 250px 250px, 180px 180px, 320px 320px;
   pointer-events: none;
-  z-index: -1;
-  will-change: transform;
+  z-index: -2;
 }
 
 body.dark .cosmic-dashboard::before {
   background: 
-    radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.12) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
-  background-size: 550px 550px, 350px 350px, 250px 250px;
+    radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.1) 0%, transparent 40%);
+  background-size: 400px 400px, 300px 300px;
 }
 
-body.dark .cosmic-dashboard::after {
-  background: 
-    radial-gradient(circle at 50% 50%, var(--dashboard-star-color) 0px, transparent 1px),
-    radial-gradient(circle at 10% 20%, var(--dashboard-star-color) 0px, transparent 2px),
-    radial-gradient(circle at 80% 10%, rgba(139, 92, 246, 0.5) 0px, transparent 1px),
-    radial-gradient(circle at 30% 80%, var(--dashboard-star-color) 0px, transparent 2px),
-    radial-gradient(circle at 70% 25%, rgba(236, 72, 153, 0.4) 0px, transparent 1px);
-  background-size: 200px 200px, 150px 150px, 400px 400px, 300px 300px, 450px 450px;
+@keyframes nebulaMove {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.05) rotate(2deg); }
 }
 
-@keyframes dashboardNebulaMove {
-  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
-  33% { transform: scale(1.1) rotate(5deg); opacity: 1; }
-  66% { transform: scale(0.9) rotate(-3deg); opacity: 0.6; }
-}
-
-/* ===== QUANTUM FIELD EFFECT - Optimized ===== */
+/* ===== QUANTUM FIELD EFFECT - Simplified ===== */
 .dashboard-quantum-field {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
-    radial-gradient(circle at 25% 25%, var(--dashboard-energy-color) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, var(--dashboard-plasma-color) 0%, transparent 50%);
-  animation: dashboardQuantumShift 8s ease-in-out infinite;
+  background: radial-gradient(circle at 50% 50%, var(--dashboard-energy-color) 0%, transparent 60%);
+  animation: quantumShift 12s ease-in-out infinite;
   pointer-events: none;
-  z-index: 1;
-  will-change: transform, opacity;
+  z-index: -1;
+  opacity: 0.6;
 }
 
-@keyframes dashboardQuantumShift {
-  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
-  50% { transform: scale(1.1) rotate(180deg); opacity: 0.8; }
+@keyframes quantumShift {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.4; }
+  50% { transform: scale(1.1) rotate(180deg); opacity: 0.7; }
 }
 
-/* ===== FLOATING OBJECTS CONTAINER - Optimized ===== */
+/* ===== FLOATING OBJECTS CONTAINER ===== */
 .dashboard-floating-objects {
   position: fixed;
   top: 0;
@@ -156,125 +157,93 @@ body.dark .cosmic-dashboard::after {
   height: 100%;
   pointer-events: none;
   z-index: -1;
-  contain: layout style paint;
+  contain: strict;
 }
 
-/* ===== FLOATING CUBES - Optimized count ===== */
+/* ===== FLOATING CUBES - Reduced count ===== */
 .dashboard-floating-cube {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: var(--dashboard-glow-secondary);
-  border: 2px solid var(--dashboard-glow-primary);
-  animation: dashboardFloatCube 6s ease-in-out infinite;
-  opacity: 0.9;
-  box-shadow: 
-    0 0 15px var(--dashboard-glow-primary),
-    inset 0 0 8px var(--dashboard-glow-secondary);
-  will-change: transform;
-}
-
-.dashboard-floating-cube:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
-.dashboard-floating-cube:nth-child(2) { top: 30%; left: 80%; animation-delay: -1s; }
-.dashboard-floating-cube:nth-child(3) { top: 60%; left: 15%; animation-delay: -2s; }
-.dashboard-floating-cube:nth-child(4) { top: 80%; left: 60%; animation-delay: -3s; }
-
-@keyframes dashboardFloatCube {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(180deg); }
-}
-
-/* ===== LIGHT ORBS - Optimized count ===== */
-.dashboard-light-orb {
   position: absolute;
   width: 8px;
   height: 8px;
-  background: radial-gradient(circle, var(--dashboard-glow-primary) 0%, transparent 70%);
-  border-radius: 50%;
-  animation: dashboardOrbFloat 8s ease-in-out infinite;
-  box-shadow: 0 0 20px var(--dashboard-glow-primary);
-  will-change: transform, opacity;
+  background: var(--dashboard-glow-secondary);
+  border: 1px solid var(--dashboard-glow-primary);
+  animation: floatCube 8s ease-in-out infinite;
+  opacity: 0.8;
+  box-shadow: 0 0 10px var(--dashboard-glow-primary);
 }
 
-.dashboard-light-orb:nth-child(5) { top: 25%; right: 10%; animation-delay: 0s; }
-.dashboard-light-orb:nth-child(6) { bottom: 40%; left: 30%; animation-delay: -2s; }
-.dashboard-light-orb:nth-child(7) { top: 70%; right: 40%; animation-delay: -4s; }
+.dashboard-floating-cube:nth-child(1) { top: 15%; left: 25%; animation-delay: 0s; }
+.dashboard-floating-cube:nth-child(2) { top: 35%; left: 75%; animation-delay: -2s; }
+.dashboard-floating-cube:nth-child(3) { top: 65%; left: 20%; animation-delay: -4s; }
+.dashboard-floating-cube:nth-child(4) { top: 85%; left: 65%; animation-delay: -6s; }
 
-@keyframes dashboardOrbFloat {
-  0%, 100% { transform: translateY(0px) scale(1); opacity: 0.8; }
-  50% { transform: translateY(-30px) scale(1.2); opacity: 1; }
+@keyframes floatCube {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(180deg); }
 }
 
-/* ===== ENERGY PULSES - Optimized count ===== */
-.dashboard-energy-pulse {
-  position: fixed;
+/* ===== LIGHT ORBS - Reduced count ===== */
+.dashboard-light-orb {
+  position: absolute;
   width: 6px;
   height: 6px;
+  background: radial-gradient(circle, var(--dashboard-glow-primary) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: orbFloat 10s ease-in-out infinite;
+  box-shadow: 0 0 15px var(--dashboard-glow-primary);
+}
+
+.dashboard-light-orb:nth-child(5) { top: 30%; right: 15%; animation-delay: 0s; }
+.dashboard-light-orb:nth-child(6) { bottom: 45%; left: 35%; animation-delay: -3s; }
+.dashboard-light-orb:nth-child(7) { top: 75%; right: 45%; animation-delay: -6s; }
+
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0px) scale(1); opacity: 0.7; }
+  50% { transform: translateY(-25px) scale(1.1); opacity: 1; }
+}
+
+/* ===== ENERGY PULSES - Reduced count ===== */
+.dashboard-energy-pulse {
+  position: fixed;
+  width: 4px;
+  height: 4px;
   background: var(--dashboard-glow-primary);
   border-radius: 50%;
-  box-shadow: 0 0 25px var(--dashboard-glow-primary);
-  animation: dashboardEnergyPulse 4s linear infinite;
+  box-shadow: 0 0 15px var(--dashboard-glow-primary);
+  animation: energyPulse 6s linear infinite;
   pointer-events: none;
   z-index: -1;
-  will-change: transform, opacity;
 }
 
-.dashboard-energy-pulse:nth-child(8) {
-  top: 20%;
-  left: 10%;
-  animation-delay: -1s;
+.dashboard-energy-pulse:nth-child(8) { top: 25%; left: 15%; animation-delay: -1s; }
+.dashboard-energy-pulse:nth-child(9) { top: 65%; right: 20%; animation-delay: -3s; }
+
+@keyframes energyPulse {
+  0% { transform: scale(0); opacity: 1; }
+  50% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2); opacity: 0; }
 }
 
-.dashboard-energy-pulse:nth-child(9) {
-  top: 60%;
-  right: 15%;
-  animation-delay: -2s;
-}
-
-@keyframes dashboardEnergyPulse {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1);
-    opacity: 0.9;
-  }
-  100% {
-    transform: scale(2.5);
-    opacity: 0;
-  }
-}
-
-/* ===== DASHBOARD CARDS - Enhanced spacing ===== */
+/* ===== DASHBOARD CARDS ===== */
 .cosmic-dashboard-card {
   background: var(--dashboard-bg-card);
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(12px);
   border: 2px solid var(--dashboard-border-color);
   border-radius: 16px;
   padding: 2rem;
-  margin: calc(var(--dashboard-content-spacing) * 0.67) auto; /* Increased margin between cards */
+  margin: calc(var(--dashboard-content-spacing) * 0.67) auto;
   max-width: 800px;
   width: 90%;
-  box-shadow: 
-    0 8px 25px var(--dashboard-shadow-color),
-    inset 0 2px 0 rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px var(--dashboard-shadow-color);
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
   position: relative;
   overflow: hidden;
   z-index: 2;
-  will-change: transform, background;
+  contain: layout style;
 }
 
-/* First card gets extra top margin */
 .cosmic-dashboard-card:first-of-type {
   margin-top: calc(var(--dashboard-content-spacing) * 1.2);
-}
-
-body.dark .cosmic-dashboard-card {
-  box-shadow: 
-    0 8px 25px var(--dashboard-shadow-color),
-    inset 0 2px 0 rgba(255, 255, 255, 0.1);
 }
 
 .cosmic-dashboard-card::before {
@@ -284,38 +253,22 @@ body.dark .cosmic-dashboard-card {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg, 
-    transparent, 
-    rgba(255, 255, 255, 0.1), 
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
   transition: left 0.5s ease;
 }
 
 .cosmic-dashboard-card:hover {
   background: var(--dashboard-bg-card-hover);
-  transform: translateY(-5px) scale(1.02);
-  backdrop-filter: blur(25px);
+  transform: translateY(-3px) scale(1.01);
   border-color: rgba(139, 92, 246, 0.6);
-  box-shadow: 
-    0 15px 35px var(--dashboard-shadow-color),
-    0 0 30px rgba(139, 92, 246, 0.3),
-    inset 0 2px 0 rgba(255, 255, 255, 0.4);
-}
-
-body.dark .cosmic-dashboard-card:hover {
-  box-shadow: 
-    0 15px 35px var(--dashboard-shadow-color),
-    0 0 30px rgba(139, 92, 246, 0.5),
-    inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 30px var(--dashboard-shadow-color);
 }
 
 .cosmic-dashboard-card:hover::before {
   left: 100%;
 }
 
-/* ===== SCROLLABLE MOOD HISTORY - Optimized ===== */
+/* ===== SCROLLABLE MOOD HISTORY ===== */
 .mood-history-container {
   max-height: 400px;
   overflow-y: auto;
@@ -341,11 +294,7 @@ body.dark .cosmic-dashboard-card:hover {
   transition: background 0.3s ease;
 }
 
-.mood-history-container::-webkit-scrollbar-thumb:hover {
-  background: var(--dashboard-glow-secondary);
-}
-
-/* ===== TYPOGRAPHY - Optimized ===== */
+/* ===== TYPOGRAPHY ===== */
 .cosmic-dashboard h2 {
   font-size: 2.5rem;
   font-weight: 700;
@@ -357,7 +306,7 @@ body.dark .cosmic-dashboard-card:hover {
   background-clip: text;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
   letter-spacing: -1px;
-  animation: dashboardTitlePulse 4s ease-in-out infinite;
+  animation: titlePulse 6s ease-in-out infinite;
 }
 
 body.dark .cosmic-dashboard h2 {
@@ -365,18 +314,11 @@ body.dark .cosmic-dashboard h2 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 2px 2px 8px rgba(139, 92, 246, 0.5);
 }
 
-@keyframes dashboardTitlePulse {
-  0%, 100% { 
-    transform: scale(1);
-    filter: brightness(1);
-  }
-  50% { 
-    transform: scale(1.05);
-    filter: brightness(1.2);
-  }
+@keyframes titlePulse {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.02); filter: brightness(1.1); }
 }
 
 .cosmic-dashboard-card h3 {
@@ -384,11 +326,6 @@ body.dark .cosmic-dashboard h2 {
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-body.dark .cosmic-dashboard-card h3 {
-  text-shadow: 1px 1px 6px rgba(139, 92, 246, 0.3);
 }
 
 .cosmic-dashboard-card p {
@@ -412,22 +349,15 @@ body.dark .cosmic-dashboard-card h3 {
   color: var(--dashboard-text-secondary);
   transition: all 0.3s ease;
   font-weight: 500;
-  will-change: transform, background;
 }
 
 .cosmic-dashboard-card li:hover {
   background: rgba(255, 255, 255, 0.4);
-  transform: translateX(5px);
+  transform: translateX(3px);
   border-color: var(--dashboard-glow-primary);
-  box-shadow: 0 5px 15px rgba(124, 58, 237, 0.25);
 }
 
-body.dark .cosmic-dashboard-card li:hover {
-  background: rgba(139, 92, 246, 0.1);
-  box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
-}
-
-/* ===== PARTICLE EFFECTS - Optimized count ===== */
+/* ===== OPTIMIZED PARTICLE EFFECTS - Reduced count ===== */
 .dashboard-particle-container {
   position: fixed;
   top: 0;
@@ -436,82 +366,63 @@ body.dark .cosmic-dashboard-card li:hover {
   height: 100%;
   overflow: hidden;
   pointer-events: none;
-  z-index: 1;
-  contain: layout style paint;
+  z-index: 0;
+  contain: strict;
 }
 
 .dashboard-floating-particle {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  will-change: transform, opacity;
 }
 
 .dashboard-floating-particle.type-1 {
-  width: 4px;
-  height: 4px;
+  width: 3px;
+  height: 3px;
   background: var(--dashboard-particle-color);
-  box-shadow: 0 0 15px var(--dashboard-particle-color);
-  animation: dashboardParticleFloat1 25s infinite linear;
+  box-shadow: 0 0 10px var(--dashboard-particle-color);
+  animation: particleFloat1 30s infinite linear;
 }
 
 .dashboard-floating-particle.type-2 {
-  width: 3px;
-  height: 3px;
+  width: 2px;
+  height: 2px;
   background: rgba(219, 39, 119, 0.8);
-  box-shadow: 0 0 12px rgba(219, 39, 119, 0.8);
-  animation: dashboardParticleFloat2 30s infinite linear reverse;
+  box-shadow: 0 0 8px rgba(219, 39, 119, 0.8);
+  animation: particleFloat2 35s infinite linear reverse;
 }
 
 .dashboard-floating-particle.type-3 {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   background: rgba(59, 130, 246, 0.9);
-  box-shadow: 0 0 18px rgba(59, 130, 246, 0.9);
-  animation: dashboardParticleFloat3 20s infinite linear;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.9);
+  animation: particleFloat3 25s infinite linear;
 }
 
-@keyframes dashboardParticleFloat1 {
-  0% {
-    transform: translateY(100vh) translateX(0px) rotate(0deg);
-    opacity: 0;
-  }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% {
-    transform: translateY(-100px) translateX(50px) rotate(360deg);
-    opacity: 0;
-  }
+@keyframes particleFloat1 {
+  0% { transform: translateY(100vh) translateX(0px); opacity: 0; }
+  5% { opacity: 0.8; }
+  95% { opacity: 0.8; }
+  100% { transform: translateY(-50px) translateX(30px); opacity: 0; }
 }
 
-@keyframes dashboardParticleFloat2 {
-  0% {
-    transform: translateY(100vh) translateX(0px) rotate(0deg);
-    opacity: 0;
-  }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% {
-    transform: translateY(-100px) translateX(-30px) rotate(-360deg);
-    opacity: 0;
-  }
+@keyframes particleFloat2 {
+  0% { transform: translateY(100vh) translateX(0px); opacity: 0; }
+  5% { opacity: 0.6; }
+  95% { opacity: 0.6; }
+  100% { transform: translateY(-50px) translateX(-20px); opacity: 0; }
 }
 
-@keyframes dashboardParticleFloat3 {
-  0% {
-    transform: translateY(100vh) scale(0.5);
-    opacity: 0;
-  }
-  10% { opacity: 1; }
-  50% { transform: translateY(50vh) scale(1.2); opacity: 1; }
-  90% { opacity: 1; }
-  100% {
-    transform: translateY(-100px) scale(0.8);
-    opacity: 0;
-  }
+@keyframes particleFloat3 {
+  0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+  5% { opacity: 0.9; }
+  50% { transform: translateY(50vh) scale(1); opacity: 0.9; }
+  95% { opacity: 0.9; }
+  100% { transform: translateY(-50px) scale(0.7); opacity: 0; }
 }
 
-/* ===== ENHANCED MOOD ITEMS STYLING ===== */
+/* ===== ENHANCED MOOD ITEMS STYLING WITH RIGHT-ALIGNED DELETE BUTTON ===== */
 .mood-item {
   background: var(--dashboard-bg-secondary);
   border: 1px solid var(--dashboard-border-color);
@@ -522,40 +433,88 @@ body.dark .cosmic-dashboard-card li:hover {
   transition: all 0.3s ease;
   font-weight: 500;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  will-change: transform, background;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  contain: layout style;
 }
 
 .mood-item:hover {
   background: rgba(255, 255, 255, 0.4);
-  transform: translateX(8px) scale(1.02);
+  transform: translateX(5px) scale(1.01);
   border-color: var(--dashboard-glow-primary);
-  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.25);
+  box-shadow: 0 6px 15px rgba(124, 58, 237, 0.2);
 }
 
 body.dark .mood-item:hover {
   background: rgba(139, 92, 246, 0.15);
-  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 6px 15px rgba(139, 92, 246, 0.25);
+}
+
+.mood-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.mood-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
 }
 
 .mood-item .mood-emoji {
   font-size: 1.5rem;
-  margin-right: 0.8rem;
-  display: inline-block;
+  flex-shrink: 0;
 }
 
 .mood-item .mood-text {
   color: var(--dashboard-text-secondary);
   font-weight: 600;
+  flex: 1;
 }
 
 .mood-item .mood-timestamp {
   font-size: 0.85rem;
   color: var(--dashboard-text-accent);
-  margin-top: 0.5rem;
   opacity: 0.8;
+  margin-top: 0.2rem;
 }
 
-/* ===== ENHANCED INPUT STYLING ===== */
+.mood-note {
+  margin-top: 0.5rem !important;
+  font-size: 0.9rem !important;
+  color: var(--dashboard-text-secondary) !important;
+  font-style: italic !important;
+  line-height: 1.4;
+}
+
+.delete-btn {
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.6rem 1rem !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  flex-shrink: 0;
+  height: fit-content;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.delete-btn:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+  transform: translateY(-1px) scale(1.02) !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4) !important;
+}
+
+/* ===== INPUT STYLING ===== */
 .cosmic-input {
   background: var(--dashboard-bg-secondary);
   border: 2px solid var(--dashboard-border-color);
@@ -567,20 +526,14 @@ body.dark .mood-item:hover {
   width: 100%;
   margin: 1rem 0;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  will-change: background, border-color, box-shadow;
+  backdrop-filter: blur(8px);
 }
 
 .cosmic-input:focus {
   outline: none;
   border-color: var(--dashboard-glow-primary);
-  box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
   background: rgba(255, 255, 255, 0.4);
-}
-
-body.dark .cosmic-input:focus {
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
-  background: rgba(139, 92, 246, 0.1);
 }
 
 .cosmic-input::placeholder {
@@ -588,7 +541,7 @@ body.dark .cosmic-input:focus {
   opacity: 0.7;
 }
 
-/* ===== ENHANCED BUTTON STYLING ===== */
+/* ===== BUTTON STYLING ===== */
 .cosmic-button {
   background: linear-gradient(135deg, var(--dashboard-glow-primary), var(--dashboard-glow-secondary));
   border: none;
@@ -602,24 +555,65 @@ body.dark .cosmic-input:focus {
   box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  will-change: transform, box-shadow, background;
 }
 
 .cosmic-button:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
-  background: linear-gradient(135deg, var(--dashboard-glow-secondary), var(--dashboard-glow-primary));
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
 }
 
-body.dark .cosmic-button {
-  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+/* ===== SHOOTING STARS EFFECT ===== */
+.dashboard-shooting-star {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--dashboard-particle-color);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--dashboard-particle-color);
+  animation: shootingStar 8s infinite linear;
+  pointer-events: none;
+  z-index: 0;
 }
 
-body.dark .cosmic-button:hover {
-  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+@keyframes shootingStar {
+  0% {
+    transform: translateX(-100px) translateY(-100px) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+    transform: translateX(-50px) translateY(-50px) scale(1);
+  }
+  90% {
+    opacity: 1;
+    transform: translateX(calc(100vw + 50px)) translateY(calc(100vh + 50px)) scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(calc(100vw + 100px)) translateY(calc(100vh + 100px)) scale(0);
+  }
 }
 
-/* ===== RESPONSIVE DESIGN - Optimized ===== */
+/* ===== DATA STREAM ===== */
+.dashboard-data-stream {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, var(--dashboard-glow-primary), transparent);
+  animation: dataFlow 4s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.6;
+}
+
+@keyframes dataFlow {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   :root {
     --dashboard-content-spacing: 2rem;
@@ -629,7 +623,6 @@ body.dark .cosmic-button:hover {
   .cosmic-dashboard {
     padding: 1rem;
     margin-top: calc(var(--dashboard-navbar-height) + var(--dashboard-content-spacing));
-    padding-top: var(--dashboard-content-spacing);
   }
   
   .cosmic-dashboard-card {
@@ -637,20 +630,26 @@ body.dark .cosmic-button:hover {
     margin: calc(var(--dashboard-content-spacing) * 0.5) auto;
   }
   
-  .cosmic-dashboard-card:first-of-type {
-    margin-top: var(--dashboard-content-spacing);
-  }
-  
   .cosmic-dashboard h2 {
     font-size: 2rem;
-    margin: var(--dashboard-content-spacing) 0;
   }
   
   .mood-history-container {
     max-height: 300px;
   }
   
-  /* Hide some floating elements on mobile for performance */
+  .mood-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+  }
+  
+  .delete-btn {
+    align-self: flex-end;
+    width: fit-content;
+  }
+  
+  /* Reduce particles on mobile */
   .dashboard-floating-cube:nth-child(n+3),
   .dashboard-light-orb:nth-child(n+2) {
     display: none;
@@ -665,10 +664,6 @@ body.dark .cosmic-button:hover {
   
   .cosmic-dashboard h2 {
     font-size: 1.8rem;
-  }
-  
-  .cosmic-dashboard-card h3 {
-    font-size: 1.3rem;
   }
   
   .cosmic-dashboard-card {
@@ -686,24 +681,13 @@ body.dark .cosmic-button:hover {
   }
 }
 
-/* ===== PERFORMANCE OPTIMIZATIONS ===== */
-.cosmic-dashboard *,
-.cosmic-dashboard *::before,
-.cosmic-dashboard *::after {
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
-/* GPU acceleration for animated elements */
-.dashboard-floating-cube,
-.dashboard-light-orb,
-.dashboard-energy-pulse,
-.dashboard-floating-particle,
-.cosmic-dashboard::before,
-.cosmic-dashboard::after,
-.dashboard-quantum-field {
-  transform: translateZ(0);
-  will-change: transform;
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ===== LOADING ANIMATION ===== */
@@ -711,23 +695,120 @@ body.dark .cosmic-button:hover {
   text-align: center;
   font-size: 1.2rem;
   color: var(--dashboard-text-accent);
-  animation: dashboardLoadingGlow 2s ease-in-out infinite;
+  animation: loadingGlow 3s ease-in-out infinite;
 }
 
-@keyframes dashboardLoadingGlow {
+@keyframes loadingGlow {
   0%, 100% { opacity: 0.7; }
   50% { opacity: 1; }
 }
 
-/* ===== ACCESSIBILITY ===== */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+/* ===== STATISTICS CARDS ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.stat-card {
+  background: var(--dashboard-bg-secondary);
+  border: 2px solid var(--dashboard-border-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: var(--dashboard-glow-primary);
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.25);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--dashboard-glow-primary);
+  margin: 0.5rem 0;
+}
+
+.stat-label {
+  color: var(--dashboard-text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}
+
+/* ===== ALERT STYLING ===== */
+.cosmic-alert {
+  background: var(--dashboard-bg-card);
+  border: 2px solid var(--dashboard-glow-primary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  backdrop-filter: blur(12px);
+  animation: alertGlow 4s ease-in-out infinite;
+}
+
+@keyframes alertGlow {
+  0%, 100% { 
+    border-color: var(--dashboard-glow-primary);
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
   }
+  50% { 
+    border-color: var(--dashboard-glow-secondary);
+    box-shadow: 0 0 20px rgba(219, 39, 119, 0.4);
+  }
+}
+
+/* ===== PROGRESS BARS ===== */
+.cosmic-progress {
+  background: var(--dashboard-bg-secondary);
+  border-radius: 25px;
+  overflow: hidden;
+  height: 12px;
+  margin: 1rem 0;
+}
+
+.cosmic-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--dashboard-glow-primary), var(--dashboard-glow-secondary));
+  border-radius: 25px;
+  transition: width 0.5s ease;
+  animation: progressPulse 3s ease-in-out infinite;
+}
+
+@keyframes progressPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(124, 58, 237, 0.4); }
+  50% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.6); }
+}
+
+body.dark .cosmic-progress-fill {
+  animation: progressPulseDark 3s ease-in-out infinite;
+}
+
+@keyframes progressPulseDark {
+  0%, 100% { box-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.7); }
+}
+
+/* ===== NAVBAR SPACING UTILITIES ===== */
+.navbar-spacer {
+  height: calc(var(--dashboard-navbar-height) + var(--dashboard-content-spacing));
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.has-fixed-navbar {
+  padding-top: calc(var(--dashboard-navbar-height) + var(--dashboard-content-spacing)) !important;
+}
+
+.has-fixed-navbar .cosmic-dashboard {
+  margin-top: 0;
+  padding-top: var(--dashboard-content-spacing);
 }
 
 /* ===== FOCUS STYLES ===== */
@@ -756,207 +837,7 @@ body.dark .cosmic-button:hover {
   background: var(--dashboard-glow-secondary);
 }
 
-/* ===== ENHANCED STATISTICS CARDS ===== */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
-}
-
-.stat-card {
-  background: var(--dashboard-bg-secondary);
-  border: 2px solid var(--dashboard-border-color);
-  border-radius: 16px;
-  padding: 1.5rem;
-  text-align: center;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  will-change: transform, border-color, box-shadow;
-}
-
-.stat-card:hover {
-  transform: translateY(-5px) scale(1.05);
-  border-color: var(--dashboard-glow-primary);
-  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
-}
-
-body.dark .stat-card:hover {
-  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
-}
-
-.stat-number {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--dashboard-glow-primary);
-  margin: 0.5rem 0;
-}
-
-.stat-label {
-  color: var(--dashboard-text-secondary);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 0.9rem;
-}
-
-/* ===== ENHANCED ALERT/NOTIFICATION STYLING ===== */
-.cosmic-alert {
-  background: var(--dashboard-bg-card);
-  border: 2px solid var(--dashboard-glow-primary);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin: 1rem 0;
-  backdrop-filter: blur(15px);
-  animation: cosmicAlertGlow 3s ease-in-out infinite;
-  will-change: border-color, box-shadow;
-}
-
-@keyframes cosmicAlertGlow {
-  0%, 100% { 
-    border-color: var(--dashboard-glow-primary);
-    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
-  }
-  50% { 
-    border-color: var(--dashboard-glow-secondary);
-    box-shadow: 0 0 30px rgba(219, 39, 119, 0.4);
-  }
-}
-
-body.dark .cosmic-alert {
-  animation: cosmicAlertGlowDark 3s ease-in-out infinite;
-}
-
-@keyframes cosmicAlertGlowDark {
-  0%, 100% { 
-    border-color: var(--dashboard-glow-primary);
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
-  }
-  50% { 
-    border-color: var(--dashboard-glow-secondary);
-    box-shadow: 0 0 30px rgba(156, 39, 176, 0.6);
-  }
-}
-
-/* ===== ENHANCED PROGRESS BARS ===== */
-.cosmic-progress {
-  background: var(--dashboard-bg-secondary);
-  border-radius: 25px;
-  overflow: hidden;
-  height: 12px;
-  margin: 1rem 0;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.cosmic-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--dashboard-glow-primary), var(--dashboard-glow-secondary));
-  border-radius: 25px;
-  transition: width 0.5s ease;
-  box-shadow: 0 0 15px rgba(124, 58, 237, 0.5);
-  animation: cosmicProgressPulse 2s ease-in-out infinite;
-  will-change: width, box-shadow;
-}
-
-@keyframes cosmicProgressPulse {
-  0%, 100% { box-shadow: 0 0 15px rgba(124, 58, 237, 0.5); }
-  50% { box-shadow: 0 0 25px rgba(124, 58, 237, 0.8); }
-}
-
-body.dark .cosmic-progress-fill {
-  box-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
-  animation: cosmicProgressPulseDark 2s ease-in-out infinite;
-}
-
-@keyframes cosmicProgressPulseDark {
-  0%, 100% { box-shadow: 0 0 15px rgba(139, 92, 246, 0.6); }
-  50% { box-shadow: 0 0 25px rgba(139, 92, 246, 0.9); }
-}
-
-/* ===== SHOOTING STARS EFFECT - Optimized ===== */
-.dashboard-shooting-star {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  background: var(--dashboard-particle-color);
-  border-radius: 50%;
-  box-shadow: 0 0 25px var(--dashboard-particle-color), 0 0 50px var(--dashboard-glow-primary);
-  animation: dashboardShootingStar 5s infinite linear;
-  pointer-events: none;
-  z-index: 1;
-  will-change: transform, opacity, box-shadow;
-}
-
-body.dark .dashboard-shooting-star {
-  background: #8b5cf6;
-  box-shadow: 0 0 25px #8b5cf6, 0 0 50px #ffffff;
-}
-
-@keyframes dashboardShootingStar {
-  0% {
-    transform: translateX(-200px) translateY(-200px) scale(0);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-    transform: translateX(-100px) translateY(-100px) scale(1);
-    box-shadow: 
-      0 0 25px currentColor, 
-      0 0 50px currentColor,
-      -150px 150px 20px rgba(124, 58, 237, 0.5);
-  }
-  90% {
-    opacity: 1;
-    transform: translateX(calc(100vw + 100px)) translateY(calc(100vh + 100px)) scale(0.8);
-    box-shadow: 
-      0 0 25px currentColor, 
-      0 0 50px currentColor,
-      -150px 150px 20px rgba(124, 58, 237, 0.5);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(calc(100vw + 200px)) translateY(calc(100vh + 200px)) scale(0);
-  }
-}
-
-/* ===== DATA STREAM - Optimized ===== */
-.dashboard-data-stream {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 3px;
-  height: 100%;
-  background: linear-gradient(to bottom, transparent, var(--dashboard-glow-primary), transparent);
-  animation: dashboardDataFlow 3s linear infinite;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0.8;
-  will-change: transform;
-}
-
-@keyframes dashboardDataFlow {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
-}
-
-/* ===== NAVBAR SPECIFIC SPACING UTILITIES ===== */
-.navbar-spacer {
-  height: calc(var(--dashboard-navbar-height) + var(--dashboard-content-spacing));
-  width: 100%;
-  flex-shrink: 0;
-}
-
-/* For fixed navbar layouts */
-.has-fixed-navbar {
-  padding-top: calc(var(--dashboard-navbar-height) + var(--dashboard-content-spacing)) !important;
-}
-
-.has-fixed-navbar .cosmic-dashboard {
-  margin-top: 0;
-  padding-top: var(--dashboard-content-spacing);
-}
-
-/* ===== CONTAINER QUERY OPTIMIZATION ===== */
+/* ===== CONTAINER QUERIES OPTIMIZATION ===== */
 @container (max-width: 600px) {
   .cosmic-dashboard-card {
     margin: calc(var(--dashboard-content-spacing) * 0.4) auto;
@@ -967,4 +848,87 @@ body.dark .dashboard-shooting-star {
     font-size: 1.6rem;
     margin: calc(var(--dashboard-content-spacing) * 0.8) 0;
   }
+}
+
+/* ===== PERFORMANCE: LAYER CREATION CONTROL ===== */
+.dashboard-floating-cube,
+.dashboard-light-orb,
+.dashboard-energy-pulse,
+.dashboard-floating-particle,
+.dashboard-shooting-star {
+  contain: layout style paint;
+}
+
+/* ===== HARDWARE ACCELERATION HINTS ===== */
+.cosmic-dashboard-card:hover,
+.mood-item:hover,
+.delete-btn:hover,
+.cosmic-button:hover {
+  transform: translateZ(0);
+}
+
+/* ===== ANIMATION OPTIMIZATION ===== */
+@media (max-width: 768px) {
+  .dashboard-floating-particle {
+    animation-duration: 40s; /* Slower on mobile for better performance */
+  }
+  
+  .dashboard-quantum-field {
+    animation-duration: 20s; /* Slower quantum field */
+  }
+}
+
+/* ===== REDUCED MOTION SUPPORT ===== */
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-dashboard::before,
+  .cosmic-dashboard::after,
+  .dashboard-quantum-field,
+  .dashboard-floating-cube,
+  .dashboard-light-orb,
+  .dashboard-energy-pulse,
+  .dashboard-floating-particle,
+  .dashboard-shooting-star,
+  .dashboard-data-stream {
+    animation-play-state: paused;
+  }
+  
+  .cosmic-dashboard h2 {
+    animation: none;
+  }
+}
+
+/* ===== CRITICAL PERFORMANCE OPTIMIZATIONS ===== */
+.dashboard-particle-container * {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.mood-item {
+  isolation: isolate;
+}
+
+.cosmic-dashboard-card {
+  isolation: isolate;
+}
+
+/* ===== FINAL CLEANUP ===== */
+.cosmic-dashboard * {
+  box-sizing: border-box;
+}
+
+.cosmic-dashboard img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ensure smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Optimize text rendering */
+.cosmic-dashboard {
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

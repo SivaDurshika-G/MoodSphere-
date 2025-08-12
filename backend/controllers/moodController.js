@@ -45,3 +45,32 @@ exports.getMonthlyMoods = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.deleteMood = async (req, res) => {
+  try {
+    const mood = await MoodEntry.findOne({ _id: req.params.id, user: req.user.id });
+
+    if (!mood) {
+      return res.status(404).json({ message: 'Mood entry not found' });
+    }
+
+    await mood.deleteOne();
+    res.json({ message: 'Mood entry deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+exports.deleteAllMoods = async (req, res) => {
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: 'Not authorized' });
+    }
+
+    await MoodEntry.deleteMany({ user: req.user.id });
+    res.json({ message: 'All mood entries deleted successfully' });
+  } catch (err) {
+    console.error('Delete error:', err);
+    res.status(500).json({ message: err.message });
+  }
+};
+

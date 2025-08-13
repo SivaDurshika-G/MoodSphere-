@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
@@ -17,6 +17,8 @@ import VerifyOTP from './pages/VerifyOTP';
 import ResetPassword from './pages/ResetPassword';
 import MoodCalendar from './pages/CalendarPage';
 import Contributors from './pages/Contributors';
+import IntroScreen from "./components/IntroScreen";
+
 
 export default function App() {
   // Apply stored theme on load
@@ -28,6 +30,19 @@ export default function App() {
       document.body.classList.remove('dark');
     }
   }, []);
+    const [showIntro, setShowIntro] = useState(false);
+
+  useEffect(() => {
+    const seenIntro = localStorage.getItem("introSeen");
+    if (!seenIntro) {
+      setShowIntro(true);
+      localStorage.setItem("introSeen", "true");
+    }
+  }, []);
+
+  if (showIntro) {
+    return <IntroScreen onFinish={() => setShowIntro(false)} />;
+  }
 
   return (
     <Router>

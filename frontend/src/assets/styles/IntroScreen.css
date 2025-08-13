@@ -1,0 +1,48 @@
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #1a1a1a, #3a3a3a);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  z-index: 9999;
+}
+
+.intro-text {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  animation: fadeInOut 4s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.darkmode-hint {
+  margin-top: 20px;
+  opacity: 0;
+  animation: slideUp 1s ease-in-out 2s forwards;
+}
+
+@keyframes slideUp {
+  to {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+.darkmode-hint button {
+  padding: 10px 20px;
+  background: #ff7f50;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}

@@ -33,6 +33,16 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// ✅ Health check route for uptime monitors
+app.get('/api', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    message: 'MoodSphere API is running',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -40,8 +50,6 @@ app.use('/api/moods', moodRoutes);
 app.use('/api/reminder', reminderRoutes);
 app.use('/api/assistant', assistantRoutes);
 app.use('/api/github', githubRoutes);
-
-
 
 // Error handler
 app.use(errorHandler);

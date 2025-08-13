@@ -1,70 +1,160 @@
-# Getting Started with Create React App
+# MoodSphere: Your Personalized Mood Tracker 📊
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+MoodSphere is an elegant, colorful, and interactive web app designed to help users track their daily moods 🌈. With MoodSphere, you can log your feelings, view emotional history on an interactive calendar, take reflective notes, get daily reminders, and even chat with a mood-based AI assistant for support.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 📌 Table of Contents
 
-### `npm start`
+* [Features](#-features)
+* [Tech Stack](#-tech-stack)
+* [Installation](#-installation)
+* [Usage](#-usage)
+* [How It Works](#-how-it-works)
+* [Live Demo](#-live-demo)
+* [Screenshots](#-screenshots)
+* [Contributing](#-contributing)
+* [License](#-license)
+* [Contact](#-contact)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## ✨ Features
 
-### `npm test`
+* 🎨 **Colorful Mood Selector** – Choose from moods like Happy 😊, Sad 😢, Neutral 😐, and more.
+* 📅 **Interactive Calendar** – Visualize your emotional history with a color-coded calendar.
+* ✍️ **Personal Notes** – Reflect on your day with optional written notes.
+* 💾 **Local Storage & Backend Support** – Store mood data locally or in the backend for persistent tracking.
+* ⏰ **Daily Reminders** – Get notifications to log your mood every day.
+* 📧 **Email Notifications** – Automatic emails for new user registration, forgotten password, or daily mood reminders.
+* 🖥️ **Multi-Page Dashboard** – Includes UK dashboard, contributors page, and calendar page.
+* 💬 **AI Chatbot** – Mood-based chatbot to provide support and suggestions to users.
+* 🎞️ **Smooth Animations & Backgrounds** – A visually appealing, dynamic UI with animated backgrounds.
+* 📱 **Fully Responsive** – Optimized for desktop, tablet, and mobile devices.
+* 🔒 **Authentication** – Login and Register securely with JWT-based sessions.
+* ⚡ **Fast & Interactive UI** – Enhanced user experience with animated transitions and smooth interactions.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## ⚙️ Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Technology        | Purpose                                     |
+| ----------------- | ------------------------------------------- |
+| React.js (CRA)    | Frontend UI & interactive components        |
+| Node.js + Express | Backend API                                 |
+| MongoDB           | Database for storing users and moods        |
+| JWT               | Authentication & session management         |
+| CSS3 + Animations | Styling, animated backgrounds & transitions |
+| Nodemailer        | Email notifications                         |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 💻 Installation
 
-### `npm run eject`
+1. **Clone the Repository**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+git clone https://github.com/SivaDurshika-G/MoodSphere-.git
+cd MoodSphere-
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. **Backend Setup**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+cd backend
+npm install
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. **Frontend Setup**
 
-## Learn More
+```bash
+cd ../frontend
+npm install
+npm start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🛠 Usage
 
-### Code Splitting
+1. Open the frontend (`localhost:3000`) in your browser.
+2. Register a new account or login with an existing one.
+3. Log your daily moods and notes on the interactive calendar.
+4. Receive daily reminders and email notifications.
+5. Use the AI chatbot for mood support and guidance.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## ⚙️ How It Works
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+* Users authenticate via login/register.
+* Mood entries are saved either locally or in the backend.
+* Daily reminders are triggered via email notifications.
+* Calendar displays mood history with color-coded moods.
+* Chatbot suggests actions or advice based on your logged mood.
+* Animated backgrounds and transitions enhance engagement.
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 🌐 Live Demo
 
-### Advanced Configuration
+Visit the live site: [MoodSphere Live - https://sphere-rouge.vercel.app](https://sphere-rouge.vercel.app)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🔧 `.env.example` (Backend)
 
-### `npm run build` fails to minify
+```env
+PORT=5000
+MONGO_URI=your_mongo_uri
+JWT_SECRET=your_jwt_secret_key_here
+NODE_ENV=development
+GOOGLE_CLIENT_ID=client_id
+GOOGLE_CLIENT_SECRET=client_secret
+FRONTEND_URL=http://localhost:3000
+GOOGLE_CALLBACK_URL=http://localhost:5000/api/auth/google/callback
+SESSION_SECRET=your_session_secret_key
+GMAIL_USER=mail_id
+GMAIL_PASS=pass
+GROQ_API_KEY=api_key
+GROQ_MODEL=llama3-8b-8192
+GITHUB_TOKEN=token
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## 🤝 Contributing
+
+We welcome contributions from the community! To contribute:
+
+1. Fork the repository
+2. Create a new branch:
+
+```bash
+git checkout -b feature/your-feature-name
+```
+
+3. Make your changes
+4. Commit and push:
+
+```bash
+git commit -m "Add your message"
+git push origin feature/your-feature-name
+```
+
+5. Open a Pull Request
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**. See the LICENSE file for full details.
+
+---
+
+## 📬 Contact
+
+* **Created by:** Siva Durshika
+* **Email:** [sivadurshika@gmail.com](mailto:sivadurshika@gmail.com)
+* **GitHub:** [@SivaDurshika-G](https://github.com/SivaDurshika-G)

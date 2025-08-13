@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
@@ -19,8 +19,10 @@ import MoodCalendar from './pages/CalendarPage';
 import Contributors from './pages/Contributors';
 import IntroScreen from "./components/IntroScreen";
 
-
 export default function App() {
+  const [showIntro, setShowIntro] = useState(false);
+  const [loadingIntroCheck, setLoadingIntroCheck] = useState(true); // prevent flicker
+
   // Apply stored theme on load
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -30,15 +32,21 @@ export default function App() {
       document.body.classList.remove('dark');
     }
   }, []);
-    const [showIntro, setShowIntro] = useState(false);
 
   useEffect(() => {
-    const seenIntro = localStorage.getItem("introSeen");
+    // Use sessionStorage so intro resets after closing browser
+    const seenIntro = sessionStorage.getItem("introSeen");
     if (!seenIntro) {
       setShowIntro(true);
-      localStorage.setItem("introSeen", "true");
+      sessionStorage.setItem("introSeen", "true");
     }
+    setLoadingIntroCheck(false); // done checking
   }, []);
+
+  // Prevent rendering until we know if intro should be shown
+  if (loadingIntroCheck) {
+    return null; // render nothing until check is complete
+  }
 
   if (showIntro) {
     return <IntroScreen onFinish={() => setShowIntro(false)} />;

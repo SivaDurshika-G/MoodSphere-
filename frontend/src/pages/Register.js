@@ -13,7 +13,7 @@ export default function Register() {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -28,8 +28,10 @@ export default function Register() {
   };
 
   const handleGoogleRegister = () => {
-    window.location.href = `${process.env.REACT_APP_API_BASE}/auth/google`;
-
+    // Remove trailing slash from API base to avoid double-slash URLs
+    const base = (process.env.REACT_APP_API_BASE || '').replace(/\/$/, '');
+    window.location.href = `${base}/auth/google`;
+    // Or: window.location.href = new URL('/auth/google', process.env.REACT_APP_API_BASE || '').toString();
   };
 
   return (

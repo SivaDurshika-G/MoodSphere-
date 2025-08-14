@@ -22,7 +22,10 @@ export default function Login() {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${process.env.REACT_APP_API_BASE}/auth/google`;
+    // Remove any trailing slash from the base URL to avoid // in production
+    const base = (process.env.REACT_APP_API_BASE || '').replace(/\/$/, '');
+    window.location.href = `${base}/auth/google`;
+    // Or: window.location.href = new URL('/auth/google', process.env.REACT_APP_API_BASE || '').toString();
   };
 
   const handleForgotPassword = () => {

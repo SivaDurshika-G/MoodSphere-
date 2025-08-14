@@ -98,7 +98,7 @@ npm start
 
 ## 🌐 Live Demo
 
-Visit the live site: [MoodSphere Live - https://sphere-rouge.vercel.app](https://sphere-rouge.vercel.app)
+Visit the live site: [MoodSphere Live - [https://sphere-rouge.vercel.app](https://moodsphere-rouge.vercel.app/)]
 
 ---
 

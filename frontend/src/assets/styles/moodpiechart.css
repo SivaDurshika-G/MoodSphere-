@@ -1,0 +1,625 @@
+/* ===== MOOD PIE CHART CSS - COSMIC DASHBOARD ADAPTIVE ===== */
+
+/* ===== CSS VARIABLES FOR MOOD PIE CHART ===== */
+:root {
+  /* Light Theme Pie Chart Variables */
+  --pie-chart-bg-primary: rgba(255, 255, 255, 0.15);
+  --pie-chart-bg-secondary: rgba(255, 255, 255, 0.15);
+  --pie-chart-border-color: rgba(255, 255, 255, 0.3);
+  --pie-chart-text-color: #2d1b69;
+  --pie-chart-legend-color: #201b5eff;
+  --pie-chart-title-color: #0c041bff;
+  --pie-chart-canvas-bg: rgba(255, 255, 255, 0.08);
+  --pie-chart-hover-overlay: rgba(124, 58, 237, 0.1);
+  --pie-chart-glow-color: rgba(124, 58, 237, 0.3);
+  --pie-chart-shadow-color: rgba(0, 0, 0, 0.1);
+  --pie-chart-sector-glow: rgba(124, 58, 237, 0.4);
+}
+
+body.dark {
+  /* Dark Theme Pie Chart Variables */
+  --pie-chart-bg-primary: rgba(0, 0, 0, 0.2);
+  --pie-chart-bg-secondary: rgba(0, 0, 0, 0.35);
+  --pie-chart-border-color: rgba(139, 92, 246, 0.3);
+  --pie-chart-text-color: #ffffff;
+  --pie-chart-legend-color: #c4b5fd;
+  --pie-chart-title-color: #7840bdff;
+  --pie-chart-canvas-bg: rgba(139, 92, 246, 0.05);
+  --pie-chart-hover-overlay: rgba(138, 92, 246, 0.46);
+  --pie-chart-glow-color: rgba(139, 92, 246, 0.4);
+  --pie-chart-shadow-color: rgba(139, 92, 246, 0.2);
+  --pie-chart-sector-glow: rgba(102, 67, 185, 0.69);
+}
+
+/* ===== MAIN PIE CHART CONTAINER ===== */
+.mood-pie-chart-container {
+  position: relative;
+  background: var(--pie-chart-bg-primary);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--pie-chart-border-color);
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 8px 32px var(--pie-chart-shadow-color),
+    inset 0 2px 0 rgba(255, 255, 255, 0.1);
+  will-change: transform, box-shadow, background;
+  
+  /* Center the chart */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Enhanced hover effect matching dashboard cards */
+.mood-pie-chart-container:hover {
+  background: var(--pie-chart-bg-secondary);
+  transform: translateY(-3px) scale(1.01);
+  border-color: var(--dashboard-glow-primary);
+  box-shadow: 
+    0 15px 40px var(--pie-chart-shadow-color),
+    0 0 25px var(--pie-chart-glow-color),
+    inset 0 2px 0 rgba(255, 255, 255, 0.2);
+}
+
+body.dark .mood-pie-chart-container {
+  box-shadow: 
+    0 8px 32px var(--pie-chart-shadow-color),
+    inset 0 2px 0 rgba(255, 255, 255, 0.05);
+}
+
+body.dark .mood-pie-chart-container:hover {
+  box-shadow: 
+    0 15px 40px var(--pie-chart-shadow-color),
+    0 0 35px var(--pie-chart-glow-color),
+    inset 0 2px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Animated shimmer effect on container */
+.mood-pie-chart-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.1), 
+    transparent
+  );
+  transition: left 0.6s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.mood-pie-chart-container:hover::before {
+  left: 100%;
+}
+
+body.dark .mood-pie-chart-container::before {
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(139, 92, 246, 0.15), 
+    transparent
+  );
+}
+
+/* ===== PIE CHART WRAPPER ===== */
+.mood-pie-chart-wrapper {
+  position: relative;
+  z-index: 2;
+  background: var(--pie-chart-canvas-bg);
+  border-radius: 50%;
+  padding: 1rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 
+    inset 0 2px 8px rgba(0, 0, 0, 0.05),
+    0 2px 8px rgba(124, 58, 237, 0.1),
+    0 0 20px rgba(124, 58, 237, 0.2);
+  will-change: transform, box-shadow;
+  
+  /* Ensure proper sizing and centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.dark .mood-pie-chart-wrapper {
+  box-shadow: 
+    inset 0 2px 8px rgba(0, 0, 0, 0.2),
+    0 2px 12px rgba(139, 92, 246, 0.15),
+    0 0 25px rgba(139, 92, 246, 0.3);
+}
+
+.mood-pie-chart-container:hover .mood-pie-chart-wrapper {
+  transform: scale(1.02);
+  box-shadow: 
+    inset 0 2px 12px rgba(0, 0, 0, 0.08),
+    0 4px 16px rgba(124, 58, 237, 0.2),
+    0 0 30px rgba(124, 58, 237, 0.4);
+}
+
+body.dark .mood-pie-chart-container:hover .mood-pie-chart-wrapper {
+  box-shadow: 
+    inset 0 2px 12px rgba(0, 0, 0, 0.3),
+    0 4px 20px rgba(139, 92, 246, 0.25),
+    0 0 35px rgba(139, 92, 246, 0.5);
+}
+
+/* ===== PIE CHART SVG STYLING ===== */
+.mood-pie-chart-container .recharts-wrapper {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s ease;
+  will-change: filter, transform;
+}
+
+.mood-pie-chart-container:hover .recharts-wrapper {
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+  transform: scale(1.01);
+}
+
+/* ===== PIE SECTORS STYLING ===== */
+.mood-pie-chart-container .recharts-pie-sector {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  cursor: pointer;
+  will-change: transform, filter;
+}
+
+.mood-pie-chart-container .recharts-pie-sector:hover {
+  transform: scale(1.1);
+  filter: 
+    drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2))
+    drop-shadow(0 0 15px var(--pie-chart-sector-glow));
+}
+
+body.dark .mood-pie-chart-container .recharts-pie-sector:hover {
+  filter: 
+    drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))
+    drop-shadow(0 0 20px var(--pie-chart-sector-glow));
+}
+
+/* ===== ENHANCED SECTOR COLORS WITH COSMIC THEME ===== */
+.mood-pie-chart-container .recharts-pie-sector[fill="#7c3aed"] {
+  filter: drop-shadow(0 0 8px #7c3aed);
+}
+
+.mood-pie-chart-container .recharts-pie-sector[fill="#db2777"] {
+  filter: drop-shadow(0 0 8px #db2777);
+}
+
+.mood-pie-chart-container .recharts-pie-sector[fill="#059669"] {
+  filter: drop-shadow(0 0 8px #059669);
+}
+
+.mood-pie-chart-container .recharts-pie-sector[fill="#dc2626"] {
+  filter: drop-shadow(0 0 8px #dc2626);
+}
+
+.mood-pie-chart-container .recharts-pie-sector[fill="#2563eb"] {
+  filter: drop-shadow(0 0 8px #2563eb);
+}
+
+.mood-pie-chart-container .recharts-pie-sector[fill="#7c2d12"] {
+  filter: drop-shadow(0 0 8px #7c2d12);
+}
+
+/* ===== LEGEND STYLING ===== */
+.mood-pie-chart-container .recharts-default-legend {
+  margin-top: 2rem !important;
+}
+
+.mood-pie-chart-container .recharts-legend-wrapper {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 1rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.mood-pie-chart-container .recharts-legend-item {
+  display: flex !important;
+  align-items: center !important;
+  background: var(--pie-chart-bg-secondary) !important;
+  border: 1px solid var(--pie-chart-border-color) !important;
+  border-radius: 20px !important;
+  padding: 0.5rem 1rem !important;
+  margin: 0.2rem !important;
+  transition: all 0.3s ease !important;
+  backdrop-filter: blur(10px) !important;
+  cursor: pointer !important;
+  will-change: transform, background, border-color !important;
+}
+
+.mood-pie-chart-container .recharts-legend-item:hover {
+  background: var(--pie-chart-hover-overlay) !important;
+  transform: translateY(-2px) scale(1.05) !important;
+  border-color: var(--dashboard-glow-primary) !important;
+  box-shadow: 0 5px 15px var(--pie-chart-glow-color) !important;
+}
+
+.mood-pie-chart-container .recharts-legend-item-text {
+  color: var(--pie-chart-legend-color) !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  margin-left: 0.5rem !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
+  font-family: 'Inter', 'Segoe UI', sans-serif !important;
+}
+
+body.dark .mood-pie-chart-container .recharts-legend-item-text {
+  text-shadow: 1px 1px 4px rgba(139, 92, 246, 0.2) !important;
+}
+
+/* ===== TOOLTIP STYLING ===== */
+.mood-pie-chart-container .recharts-tooltip-wrapper {
+  z-index: 1000 !important;
+}
+
+.mood-pie-chart-container .recharts-default-tooltip {
+  background: var(--dashboard-bg-card) !important;
+  border: 2px solid var(--dashboard-glow-primary) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(20px) !important;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.2),
+    0 0 20px var(--pie-chart-glow-color) !important;
+  color: var(--pie-chart-text-color) !important;
+  font-family: 'Inter', 'Segoe UI', sans-serif !important;
+  font-weight: 600 !important;
+  padding: 1rem 1.5rem !important;
+  animation: pieTooltipGlow 2s ease-in-out infinite !important;
+}
+
+@keyframes pieTooltipGlow {
+  0%, 100% { 
+    border-color: var(--dashboard-glow-primary);
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.2),
+      0 0 20px var(--pie-chart-glow-color);
+  }
+  50% { 
+    border-color: var(--dashboard-glow-secondary);
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.25),
+      0 0 30px rgba(219, 39, 119, 0.4);
+  }
+}
+
+body.dark .mood-pie-chart-container .recharts-default-tooltip {
+  animation: pieTooltipGlowDark 2s ease-in-out infinite !important;
+}
+
+@keyframes pieTooltipGlowDark {
+  0%, 100% { 
+    border-color: var(--dashboard-glow-primary);
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.4),
+      0 0 25px var(--pie-chart-glow-color);
+  }
+  50% { 
+    border-color: var(--dashboard-glow-secondary);
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.5),
+      0 0 35px rgba(156, 39, 176, 0.5);
+  }
+}
+
+.mood-pie-chart-container .recharts-tooltip-label {
+  color: var(--pie-chart-title-color) !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.mood-pie-chart-container .recharts-tooltip-item {
+  color: var(--pie-chart-text-color) !important;
+  font-weight: 600 !important;
+}
+
+/* ===== CENTER LABEL STYLING ===== */
+.mood-pie-center-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.mood-pie-center-label h4 {
+  color: var(--pie-chart-title-color);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+body.dark .mood-pie-center-label h4 {
+  text-shadow: 1px 1px 6px rgba(139, 92, 246, 0.3);
+}
+
+.mood-pie-center-label p {
+  color: var(--pie-chart-legend-color);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0 0;
+  opacity: 0.8;
+}
+
+/* ===== LOADING STATE ===== */
+.mood-pie-chart-container.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.mood-pie-chart-container.loading::after {
+  content: 'Loading chart...';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--pie-chart-text-color);
+  font-weight: 600;
+  font-size: 1.1rem;
+  z-index: 10;
+  animation: pieLoadingPulse 2s ease-in-out infinite;
+}
+
+@keyframes pieLoadingPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ===== ERROR STATE ===== */
+.mood-pie-chart-container.error {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.mood-pie-chart-container.error::after {
+  content: 'Chart data unavailable';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ef4444;
+  font-weight: 600;
+  font-size: 1.1rem;
+  z-index: 10;
+}
+
+/* ===== FLOATING PARTICLES FOR PIE CHART ===== */
+.mood-pie-chart-container .pie-chart-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--dashboard-particle-color);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: pieChartParticleFloat 10s infinite linear;
+  opacity: 0.6;
+  will-change: transform, opacity;
+}
+
+.mood-pie-chart-container .pie-chart-particle:nth-child(odd) {
+  animation-duration: 15s;
+  animation-direction: reverse;
+}
+
+@keyframes pieChartParticleFloat {
+  0% {
+    transform: translateY(100px) translateX(0px) scale(0);
+    opacity: 0;
+  }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% {
+    transform: translateY(-100px) translateX(30px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .mood-pie-chart-container {
+    padding: 1.5rem;
+    margin: 1rem auto;
+    max-width: 95%;
+  }
+  
+  .mood-pie-chart-wrapper {
+    padding: 0.8rem;
+  }
+  
+  .mood-pie-chart-container .recharts-wrapper {
+    width: 280px !important;
+    height: 280px !important;
+  }
+  
+  .mood-pie-chart-container .recharts-legend-wrapper {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  .mood-pie-chart-container .recharts-legend-item {
+    margin: 0.3rem 0 !important;
+    padding: 0.4rem 0.8rem !important;
+  }
+  
+  .mood-pie-chart-container .recharts-legend-item-text {
+    font-size: 0.8rem !important;
+  }
+  
+  .mood-pie-center-label h4 {
+    font-size: 1rem;
+  }
+  
+  .mood-pie-center-label p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mood-pie-chart-container {
+    padding: 1rem;
+    border-radius: 16px;
+    max-width: 100%;
+    margin: 1rem auto;
+  }
+  
+  .mood-pie-chart-wrapper {
+    padding: 0.5rem;
+  }
+  
+  .mood-pie-chart-container .recharts-wrapper {
+    width: 240px !important;
+    height: 240px !important;
+  }
+  
+  .mood-pie-chart-container .recharts-default-tooltip {
+    padding: 0.8rem 1rem !important;
+    font-size: 0.85rem !important;
+  }
+  
+  .mood-pie-center-label h4 {
+    font-size: 0.9rem;
+  }
+  
+  .mood-pie-center-label p {
+    font-size: 0.75rem;
+  }
+  
+  /* Hide particles on small screens for performance */
+  .mood-pie-chart-container .pie-chart-particle {
+    display: none;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .mood-pie-chart-container,
+  .mood-pie-chart-container *,
+  .mood-pie-chart-container *::before,
+  .mood-pie-chart-container *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+  .mood-pie-chart-container {
+    border-width: 3px;
+    background: var(--pie-chart-bg-secondary);
+  }
+  
+  .mood-pie-chart-container .recharts-legend-item {
+    border-width: 2px;
+    background: var(--pie-chart-bg-primary);
+  }
+}
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+.mood-pie-chart-container * {
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.mood-pie-chart-wrapper,
+.mood-pie-chart-container::before,
+.pie-chart-particle {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* ===== FOCUS STATES FOR ACCESSIBILITY ===== */
+.mood-pie-chart-container:focus-within {
+  outline: 2px solid var(--dashboard-glow-primary);
+  outline-offset: 4px;
+}
+
+.mood-pie-chart-container .recharts-legend-item:focus {
+  outline: 2px solid var(--dashboard-glow-primary);
+  outline-offset: 2px;
+}
+
+/* ===== ENHANCED GRADIENT OVERLAYS ===== */
+.mood-pie-chart-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, var(--dashboard-energy-color) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, var(--dashboard-plasma-color) 0%, transparent 50%);
+  border-radius: 20px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.2;
+  animation: pieChartGradientShift 12s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes pieChartGradientShift {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg); 
+    opacity: 0.2; 
+  }
+  50% { 
+    transform: scale(1.05) rotate(180deg); 
+    opacity: 0.4; 
+  }
+}
+
+/* ===== SECTOR ACTIVE STATES ===== */
+.mood-pie-chart-container .recharts-pie-sector.active {
+  transform-origin: center;
+  animation: sectorPulse 2s ease-in-out infinite;
+}
+
+@keyframes sectorPulse {
+  0%, 100% { 
+    transform: scale(1); 
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+  50% { 
+    transform: scale(1.02); 
+    filter: drop-shadow(0 4px 8px var(--pie-chart-sector-glow));
+  }
+}
+
+/* ===== DATA VISUALIZATION ENHANCEMENTS ===== */
+.mood-stats-overlay {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--pie-chart-bg-secondary);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--pie-chart-border-color);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  color: var(--pie-chart-legend-color);
+  z-index: 5;
+}
+
+.mood-stats-overlay .total-entries {
+  font-weight: 700;
+  color: var(--pie-chart-title-color);
+}

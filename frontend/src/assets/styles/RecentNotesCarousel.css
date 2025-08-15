@@ -1,0 +1,497 @@
+/* ===== RECENT NOTES CAROUSEL - COSMIC DASHBOARD INTEGRATION ===== */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--dashboard-bg-secondary);
+  backdrop-filter: blur(15px);
+  border: 2px solid var(--dashboard-border-color);
+  box-shadow: 
+    0 8px 25px var(--dashboard-shadow-color),
+    inset 0 2px 0 rgba(255, 255, 255, 0.3);
+  margin: 1.5rem 0;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  will-change: transform, box-shadow;
+  transition: all 0.3s ease;
+}
+
+body.dark .carousel-container {
+  box-shadow: 
+    0 8px 25px var(--dashboard-shadow-color),
+    inset 0 2px 0 rgba(255, 255, 255, 0.1);
+}
+
+.carousel-container:hover {
+  transform: translateY(-2px);
+  border-color: rgba(139, 92, 246, 0.6);
+  box-shadow: 
+    0 12px 30px var(--dashboard-shadow-color),
+    0 0 25px rgba(139, 92, 246, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4);
+}
+
+body.dark .carousel-container:hover {
+  box-shadow: 
+    0 12px 30px var(--dashboard-shadow-color),
+    0 0 25px rgba(139, 92, 246, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* ===== ENHANCED NOTE CARD STYLING ===== */
+.note-card {
+  position: relative;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  width: 100%;
+  color: var(--dashboard-text-primary);
+  backdrop-filter: blur(10px);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  will-change: transform, opacity;
+}
+
+body.dark .note-card {
+  background: rgba(139, 92, 246, 0.05);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  box-shadow: 
+    0 4px 15px rgba(139, 92, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ===== NOTE CARD CONTENT STYLING ===== */
+.note-card h4 {
+  color: var(--dashboard-glow-primary);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+body.dark .note-card h4 {
+  text-shadow: 1px 1px 6px rgba(139, 92, 246, 0.3);
+}
+
+/* Add a glowing icon before the note title */
+.note-card h4::before {
+  content: '📝';
+  font-size: 1.2rem;
+  filter: drop-shadow(0 0 8px var(--dashboard-glow-primary));
+  animation: noteIconPulse 3s ease-in-out infinite;
+}
+
+@keyframes noteIconPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.note-card p {
+  color: var(--dashboard-text-secondary);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 1rem 0 1.5rem 0;
+  font-weight: 500;
+  text-align: left;
+  position: relative;
+  padding-left: 1rem;
+}
+
+/* Add a subtle quote styling */
+.note-card p::before {
+  content: '"';
+  position: absolute;
+  left: -0.2rem;
+  top: -0.3rem;
+  font-size: 2rem;
+  color: var(--dashboard-glow-primary);
+  opacity: 0.6;
+  font-family: Georgia, serif;
+}
+
+.note-card p::after {
+  content: '"';
+  position: absolute;
+  bottom: -0.8rem;
+  right: 0;
+  font-size: 2rem;
+  color: var(--dashboard-glow-primary);
+  opacity: 0.6;
+  font-family: Georgia, serif;
+}
+
+.note-card small {
+  color: var(--dashboard-text-accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Add a clock icon before the timestamp */
+.note-card small::before {
+  content: '⏰';
+  font-size: 1rem;
+  filter: drop-shadow(0 0 5px var(--dashboard-glow-secondary));
+}
+
+/* ===== SLIDE IN/OUT ANIMATIONS ===== */
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutToLeft {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%) scale(0.9);
+    opacity: 0;
+  }
+}
+
+/* Enhanced sliding animation with cosmic effects */
+@keyframes cosmicSlideIn {
+  0% {
+    transform: translateX(120%) rotateY(-15deg) scale(0.8);
+    opacity: 0;
+    filter: blur(5px);
+  }
+  50% {
+    transform: translateX(10%) rotateY(-5deg) scale(0.95);
+    opacity: 0.7;
+    filter: blur(2px);
+  }
+  100% {
+    transform: translateX(0) rotateY(0deg) scale(1);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+@keyframes cosmicSlideOut {
+  0% {
+    transform: translateX(0) rotateY(0deg) scale(1);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  50% {
+    transform: translateX(-10%) rotateY(5deg) scale(0.95);
+    opacity: 0.7;
+    filter: blur(2px);
+  }
+  100% {
+    transform: translateX(-120%) rotateY(15deg) scale(0.8);
+    opacity: 0;
+    filter: blur(5px);
+  }
+}
+
+/* Apply animations to note cards */
+.note-card.slide-in {
+  animation: cosmicSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.note-card.slide-out {
+  animation: cosmicSlideOut 0.8s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
+}
+
+/* ===== PROGRESS INDICATOR ===== */
+.carousel-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--dashboard-glow-primary), var(--dashboard-glow-secondary));
+  border-radius: 0 0 14px 14px;
+  animation: progressBar 5s linear infinite;
+  box-shadow: 0 0 15px var(--dashboard-glow-primary);
+  will-change: width;
+}
+
+@keyframes progressBar {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+/* ===== COSMIC GLOW EFFECTS ===== */
+.note-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    var(--dashboard-glow-primary), 
+    var(--dashboard-glow-secondary), 
+    transparent, 
+    var(--dashboard-glow-primary));
+  background-size: 400% 400%;
+  border-radius: 14px;
+  z-index: -1;
+  animation: cosmicGlow 4s ease-in-out infinite;
+  opacity: 0.3;
+  will-change: background-position, opacity;
+}
+
+@keyframes cosmicGlow {
+  0%, 100% { 
+    background-position: 0% 50%; 
+    opacity: 0.3; 
+  }
+  50% { 
+    background-position: 100% 50%; 
+    opacity: 0.6; 
+  }
+}
+
+/* ===== PARTICLE EFFECTS FOR CAROUSEL ===== */
+.carousel-container .floating-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.carousel-container .floating-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--dashboard-particle-color);
+  border-radius: 50%;
+  animation: carouselParticleFloat 8s infinite linear;
+  box-shadow: 0 0 10px var(--dashboard-particle-color);
+  will-change: transform, opacity;
+}
+
+@keyframes carouselParticleFloat {
+  0% {
+    transform: translateX(-10px) translateY(0px);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% {
+    transform: translateX(calc(100% + 10px)) translateY(-20px);
+    opacity: 0;
+  }
+}
+
+/* ===== NAVIGATION DOTS (Optional Enhancement) ===== */
+.carousel-dots {
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  z-index: 3;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--dashboard-border-color);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  will-change: background, transform, box-shadow;
+}
+
+.carousel-dot.active {
+  background: var(--dashboard-glow-primary);
+  transform: scale(1.3);
+  box-shadow: 0 0 15px var(--dashboard-glow-primary);
+}
+
+.carousel-dot:hover {
+  background: var(--dashboard-glow-secondary);
+  transform: scale(1.2);
+  box-shadow: 0 0 10px var(--dashboard-glow-secondary);
+}
+
+/* ===== ENHANCED HOVER EFFECTS ===== */
+.carousel-container:hover .note-card {
+  transform: scale(1.02);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.15),
+    0 0 20px rgba(139, 92, 246, 0.2),
+    inset 0 2px 0 rgba(255, 255, 255, 0.3);
+}
+
+body.dark .carousel-container:hover .note-card {
+  box-shadow: 
+    0 8px 25px rgba(139, 92, 246, 0.2),
+    0 0 20px rgba(139, 92, 246, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* ===== LOADING STATE ===== */
+.note-card.loading {
+  opacity: 0.7;
+  animation: cosmicPulse 2s ease-in-out infinite;
+}
+
+@keyframes cosmicPulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .carousel-container {
+    min-height: 160px;
+    margin: 1rem 0;
+  }
+  
+  .note-card {
+    padding: 1.5rem;
+  }
+  
+  .note-card h4 {
+    font-size: 1.2rem;
+  }
+  
+  .note-card p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  .carousel-dots {
+    bottom: 10px;
+    right: 15px;
+  }
+  
+  .carousel-dot {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-container {
+    min-height: 140px;
+    margin: 0.8rem 0;
+  }
+  
+  .note-card {
+    padding: 1.2rem;
+  }
+  
+  .note-card h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .note-card p {
+    font-size: 0.9rem;
+    margin: 0.8rem 0 1.2rem 0;
+    padding-left: 0.8rem;
+  }
+  
+  .note-card small {
+    font-size: 0.8rem;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  .note-card.slide-in,
+  .note-card.slide-out,
+  .carousel-container::after,
+  .note-card::before,
+  .floating-particle {
+    animation: none !important;
+  }
+  
+  .note-card {
+    transition: none !important;
+  }
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+  .carousel-container {
+    border: 3px solid var(--dashboard-border-color);
+  }
+  
+  .note-card {
+    border: 2px solid var(--dashboard-text-primary);
+  }
+  
+  .note-card h4,
+  .note-card p,
+  .note-card small {
+    text-shadow: none;
+  }
+}
+
+/* ===== FOCUS STYLES FOR ACCESSIBILITY ===== */
+.carousel-container:focus-within {
+  outline: 3px solid var(--dashboard-glow-primary);
+  outline-offset: 4px;
+}
+
+.carousel-dot:focus {
+  outline: 2px solid var(--dashboard-glow-primary);
+  outline-offset: 2px;
+}
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+.carousel-container,
+.note-card,
+.floating-particle,
+.carousel-dot {
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* GPU acceleration for smooth animations */
+.note-card.slide-in,
+.note-card.slide-out,
+.carousel-container::after,
+.note-card::before {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+/* ===== EMPTY STATE STYLING ===== */
+.note-card:has-text("No notes yet") {
+  text-align: center;
+  color: var(--dashboard-text-accent);
+  font-style: italic;
+  opacity: 0.8;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark .note-card:has-text("No notes yet") {
+  background: rgba(139, 92, 246, 0.02);
+}
